@@ -1,0 +1,567 @@
+{
+ "ran_at": "2026-11-20T16:19:48.895Z",
+ "aia": "app-inventor/SITE_SAATHI.aia",
+ "app_version": "1.0-rc5",
+ "passed": 93,
+ "failed": 0,
+ "results": [
+  {
+   "section": "Day 9 · first launch: splash -> language -> Home",
+   "check": "splash shows tagline from strings.csv",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · first launch: splash -> language -> Home",
+   "check": "first launch shows Language selection (SPL-1)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · first launch: splash -> language -> Home",
+   "check": "language title in all 3 languages",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · first launch: splash -> language -> Home",
+   "check": "Next disabled until a language is chosen",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · first launch: splash -> language -> Home",
+   "check": "TinyDB lang = mr saved (LNG-2)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · first launch: splash -> language -> Home",
+   "check": "chosen language highlighted",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · first launch: splash -> language -> Home",
+   "check": "spoken prompt \"मराठी निवडा\" (LNG-1)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · first launch: splash -> language -> Home",
+   "check": "Next button now in Marathi",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · first launch: splash -> language -> Home",
+   "check": "Home opened",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · first launch: splash -> language -> Home",
+   "check": "Home tiles in Marathi (HOM-1)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · first launch: splash -> language -> Home",
+   "check": "no Continue card before any lesson (HOM-3)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · second launch goes straight to Home; Back from Home exits",
+   "check": "splash -> Home in Hindi",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · second launch goes straight to Home; Back from Home exits",
+   "check": "Back on Home closes the app (no stuck splash)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · Settings: language, text size, About, reset",
+   "check": "Settings in Marathi, Marathi marked (third-width picture)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · Settings: language, text size, About, reset",
+   "check": "storage shows 3 lessons on this phone (FR-23)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · Settings: language, text size, About, reset",
+   "check": "switch to Hindi updates labels at once (SET-1)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · Settings: language, text size, About, reset",
+   "check": "Large text: font sizes x1.2",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · Settings: language, text size, About, reset",
+   "check": "read-aloud voice help shown in Hindi (SET-3)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · Settings: language, text size, About, reset",
+   "check": "About opens inside Settings",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · Settings: language, text size, About, reset",
+   "check": "About: disclaimer + version (SET-2)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · Settings: language, text size, About, reset",
+   "check": "Back from About returns to Settings",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · Settings: language, text size, About, reset",
+   "check": "Home refreshed in Hindi + large text after Settings",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "module grid shown (MOD-1)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "Brick Masonry active with 1 lesson",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "Reinforcement shows \"Coming soon\"",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "tapping a coming-soon module shows a message, no empty screen",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "lesson list for Brick Masonry",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "list row: title, ID, duration, audio (MOD-2)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "lesson intro with picture (LES-1)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "objective + materials in Hindi",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "step 2 of 7 with its picture and text (LES-2)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "last lesson + step saved for Continue",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "Back goes to step 1",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "after step 7: safety + mistakes page, no Next (LES-3)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "red box 5 points, yellow box 7 points",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "lesson marked viewed at the end (LES-4)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "extra taps cannot go past the last page",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "Start quiz opens the Quiz for this lesson",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "back from Quiz returns to the lesson",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "back from intro -> list, which now shows \"Viewed\"",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "Back -> modules",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
+   "check": "Back -> Home (HOM-4)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Continue card and opening by ID",
+   "check": "Continue card visible after a lesson (HOM-3)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Continue card and opening by ID",
+   "check": "Continue: Concrete work · step 4 of 7 (Marathi)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Continue card and opening by ID",
+   "check": "Continue opens Concrete Work at step 4",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Continue card and opening by ID",
+   "check": "Back from a lesson opened by Continue returns to Home",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Continue card and opening by ID",
+   "check": "openLesson(\" ss-saf-01 \") trims + upper-cases (QR-2 ready for Day 12)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 10 · Continue card and opening by ID",
+   "check": "unknown ID -> clear message, stays on modules (QR-3)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · reset progress keeps language and text size",
+   "check": "confirmation dialog in English",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 9 · reset progress keeps language and text size",
+   "check": "only lang + text_size remain",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · audio bar: play / pause / restart; missing file -> clear message; stops when leaving",
+   "check": "audio bar shows Listen (AUD-1)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · audio bar: play / pause / restart; missing file -> clear message; stops when leaving",
+   "check": "audio not recorded yet -> clear message, no crash",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · audio bar: play / pause / restart; missing file -> clear message; stops when leaving",
+   "check": "plays SS-MAS-01_mr.mp3 for Marathi",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · audio bar: play / pause / restart; missing file -> clear message; stops when leaving",
+   "check": "audio stopped when leaving the lesson",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "SS-MAS-01 mr: 5 patterns, score = manual count, best kept, date saved, badge at >= 4/5",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "SS-MAS-01 hi: 5 patterns, score = manual count, best kept, date saved, badge at >= 4/5",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "SS-MAS-01 en: 5 patterns, score = manual count, best kept, date saved, badge at >= 4/5",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "SS-CON-01 mr: 5 patterns, score = manual count, best kept, date saved, badge at >= 4/5",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "SS-CON-01 hi: 5 patterns, score = manual count, best kept, date saved, badge at >= 4/5",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "SS-CON-01 en: 5 patterns, score = manual count, best kept, date saved, badge at >= 4/5",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "SS-SAF-01 mr: 5 patterns, score = manual count, best kept, date saved, badge at >= 4/5",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "SS-SAF-01 hi: 5 patterns, score = manual count, best kept, date saved, badge at >= 4/5",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "SS-SAF-01 en: 5 patterns, score = manual count, best kept, date saved, badge at >= 4/5",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "result 5/5 + badge for Concrete Work (SKL-2)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "result lists 5 correct answers (QZ-3)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
+   "check": "\"Back to lessons\" -> list shows Completed",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · Scan: QR -> lesson; unknown -> clear message; type-code backup",
+   "check": "camera opens at once: 1 tap from Home (QR-1)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · Scan: QR -> lesson; unknown -> clear message; type-code backup",
+   "check": "scanned \" ss-mas-01 \" opens Brick Masonry in Marathi (QR-2)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · Scan: QR -> lesson; unknown -> clear message; type-code backup",
+   "check": "Back from the scanned lesson goes Home (HOM-4)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · Scan: QR -> lesson; unknown -> clear message; type-code backup",
+   "check": "SS-TEST-99 -> \"not in the app yet\" message in Marathi (QR-3)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · Scan: QR -> lesson; unknown -> clear message; type-code backup",
+   "check": "a UPI QR -> \"Not a SITE SAATHI code\"",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · Scan: QR -> lesson; unknown -> clear message; type-code backup",
+   "check": "typed code opens Site Safety (QR-4)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · Scan: QR -> lesson; unknown -> clear message; type-code backup",
+   "check": "empty code does nothing",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · Scan: QR -> lesson; unknown -> clear message; type-code backup",
+   "check": "big button scans again",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · My Skills: completed, best scores, module progress, badges",
+   "check": "summary 2/3 completed, bar 2/3 of its 84% track, animation stops",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · My Skills: completed, best scores, module progress, badges",
+   "check": "progress rows only for modules with lessons (SKL-1)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · My Skills: completed, best scores, module progress, badges",
+   "check": "module bars: Brick full track (92%), Concrete 0%",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · My Skills: completed, best scores, module progress, badges",
+   "check": "lesson list: best score / viewed",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · My Skills: completed, best scores, module progress, badges",
+   "check": "badge only for scores >= 4/5 (SKL-2)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · My Skills: completed, best scores, module progress, badges",
+   "check": "tapping a lesson opens it",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · My Skills: completed, best scores, module progress, badges",
+   "check": "My Skills refreshes after returning",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · My Skills: completed, best scores, module progress, badges",
+   "check": "new phone: 0/3, no badges, all \"Not started\"",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · offline: nothing needs internet; every lesson-language pair opens with all its pictures",
+   "check": "no internet components in the worker screens (OFF-1)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · offline: nothing needs internet; every lesson-language pair opens with all its pictures",
+   "check": "9/9 lesson-language pairs open, all step pictures bundled",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "UI v2 · no raw [label_key] text on any screen, in any language",
+   "check": "mr: all 9 screens show real text, no [key] placeholders",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "UI v2 · no raw [label_key] text on any screen, in any language",
+   "check": "hi: all 9 screens show real text, no [key] placeholders",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "UI v2 · no raw [label_key] text on any screen, in any language",
+   "check": "en: all 9 screens show real text, no [key] placeholders",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Motion · press animation, Home pop-in, quiz pulse and score count-up",
+   "check": "Home tiles pop in and end at full size (160 dp); animation stops",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Motion · press animation, Home pop-in, quiz pulse and score count-up",
+   "check": "finger down -> pressed picture",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Motion · press animation, Home pop-in, quiz pulse and score count-up",
+   "check": "finger up -> normal picture",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Motion · press animation, Home pop-in, quiz pulse and score count-up",
+   "check": "press works on a picture changed by the app (selected language stays yellow)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Motion · press animation, Home pop-in, quiz pulse and score count-up",
+   "check": "right answer pulses and settles back to 64 dp",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Motion · press animation, Home pop-in, quiz pulse and score count-up",
+   "check": "score counts up and ends at 5 / 5; bar fills its 60% track",
+   "pass": true,
+   "detail": ""
+  }
+ ]
+}

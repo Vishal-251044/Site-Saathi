@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SITE SAATHI UI Part 1</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Noto+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="ui.css">
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <div>
+      <h1>SITE SAATHI · UI Design Part 1</h1>
+      <p>Day 4 · 21 Nov 2026 · Hi-Vis style guide + Splash, Language, Home, Modules, Lesson List. Redraw in Figma at 360 × 740.</p>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Language">
+        <button data-lang="mr">मराठी</button><button data-lang="hi">हिंदी</button><button data-lang="en">English</button>
+      </div>
+      <div class="seg" role="group" aria-label="Text size">
+        <button data-ts="1">Aa</button><button data-ts="1.2" style="font-size:17px">Aa+</button>
+      </div>
+    </div>
+  </div>
+
+  <h2>1 · Style guide</h2>
+  <div class="grid" id="swatches"></div>
+
+  <div class="grid" style="margin-top:14px">
+    <div class="card typescale">
+      <div class="k">Text sizes (sp) · Large text = ×1.2</div>
+      <div style="font:700 26px var(--font)">Title 22–26</div>
+      <div style="font:700 19px var(--font)">Button 18–20</div>
+      <div style="font:400 17px var(--font)">Body 16–18</div>
+      <div style="font:400 13px var(--font);color:var(--mut)">Hint 12–13</div>
+      <div class="k" style="margin-top:10px">Fonts: <b>Noto Sans Devanagari</b> (mr, hi — bundled <code>font_deva.ttf</code>) + Noto Sans (en). Wordmark only: Barlow Condensed (inside the logo image).</div>
+    </div>
+    <div class="card demo-stack">
+      <div class="k">Buttons — min 48 dp; main buttons full width, 56 dp</div>
+      <button class="btn btn-primary" data-s="btn_start_quiz"></button>
+      <button class="btn btn-dark" data-s="btn_scan"></button>
+      <button class="btn btn-outline" data-s="btn_back"></button>
+      <div class="k">Yellow = the one main action on the screen. Blue is reserved for AI (v1.1).</div>
+    </div>
+    <div class="card demo-stack">
+      <div class="k">Lesson boxes and badges</div>
+      <div class="box box-safety"><b><span data-icon="warn"></span><span data-s="lbl_safety"></span></b><span data-sample="safety"></span></div>
+      <div class="box box-mistake"><b><span data-icon="x"></span><span data-s="lbl_mistakes"></span></b><span data-sample="mistake"></span></div>
+      <div><span class="chip">SS-MAS-01</span> &nbsp; <span class="badge-off" data-s="offline_badge"></span></div>
+    </div>
+    <div class="card">
+      <div class="k">Module icons (<code>design/icons/icon_mod_*.svg</code>) — recognisable without reading</div>
+      <div id="iconrow" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px"></div>
+    </div>
+  </div>
+
+  <h2>2 · Screens</h2>
+  <div class="screens" id="screens"></div>
+  <div id="solo"></div>
+</div>
+
+<script>
+// Labels mirror content/sheet/strings.csv (same keys). Marathi/Hindi = drafts for native-speaker check.
+const S = {
+  app_name:["SITE SAATHI","SITE SAATHI","SITE SAATHI"],
+  tagline:["साइटवर शिका. आत्मविश्वासाने बांधा.","साइट पर सीखें। भरोसे से बनाएँ।","Learn at the Site. Build with Confidence."],
+  lang_title:["भाषा निवडा","भाषा चुनें","Choose language"],
+  btn_start:["शिकणे सुरू करा","सीखना शुरू करें","Start learning"],
+  btn_scan:["QR स्कॅन करा","QR स्कैन करें","Scan task QR"],
+  btn_skills:["माझी कौशल्ये","मेरे कौशल","My skills"],
+  btn_settings:["सेटिंग्ज","सेटिंग्स","Settings"],
+  btn_back:["मागे","पीछे","Back"],
+  btn_next:["पुढे","आगे","Next"],
+  btn_start_quiz:["क्विझ सुरू करा","क्विज़ शुरू करें","Start quiz"],
+  continue_card:["पुढे चालू ठेवा","जारी रखें","Continue"],
+  step_of:["पायरी {n} / {total}","चरण {n} / {total}","Step {n} of {total}"],
+  offline_badge:["ऑफलाइन उपलब्ध","ऑफलाइन उपलब्ध","Available offline"],
+  coming_soon:["लवकरच येत आहे","जल्द आ रहा है","Coming soon"],
+  mod_mas:["वीट बांधकाम","ईंट की चिनाई","Brick Masonry"],
+  mod_con:["काँक्रीट काम","कंक्रीट का काम","Concrete Work"],
+  mod_saf:["बांधकाम सुरक्षा","निर्माण सुरक्षा","Construction Safety"],
+  mod_rei:["सळई काम","सरिया का काम","Reinforcement Work"],
+  mod_cur:["क्युरिंग","क्योरिंग","Curing Techniques"],
+  mod_qua:["गुणवत्ता तपासणी","गुणवत्ता जाँच","Quality Control"],
+  lbl_safety:["सुरक्षा खबरदारी","सुरक्षा सावधानियाँ","Safety precautions"],
+  lbl_mistakes:["नेहमीच्या चुका","आम गलतियाँ","Common mistakes"],
+  skills_completed:["पूर्ण","पूरा","Completed"],
+  lbl_version:["आवृत्ती","संस्करण","Version"],
+  title_modules:["शिकण्याचे विषय","सीखने के विषय","Learning modules"],
+  lbl_lessons:["धडे","पाठ","Lessons"],
+  lbl_min:["मिनिटे","मिनट","min"],
+  lbl_audio:["ऑडिओ","ऑडियो","Audio"],
+};
+// Sample lesson data (lives in lessons.csv later; draft, not reviewed)
+const SAMPLE = {
+  title_mas:["वीट बांधकाम – मूलभूत पद्धत","ईंट की चिनाई – बुनियादी तरीका","Brick Masonry – Basic Procedure"],
+  safety:["हेल्मेट, हातमोजे आणि सुरक्षा बूट घाला.","हेलमेट, दस्ताने और सुरक्षा जूते पहनें।","Wear helmet, gloves and safety shoes."],
+  mistake:["कोरड्या विटा वापरणे.","सूखी ईंटें लगाना।","Using dry bricks."],
+};
+const LI = { mr:0, hi:1, en:2 };
+const MODS = [ ["mas",1], ["con",1], ["saf",1], ["rei",0], ["cur",0], ["qua",0] ];
+
+const P = 'fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"';
+const ICONS = {
+  book:`<path d="M4 6c3-1.5 6-1.5 8 0v13c-2-1.5-5-1.5-8 0zM20 6c-3-1.5-6-1.5-8 0v13c2-1.5 5-1.5 8 0z"/>`,
+  qr:`<rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1"/><path d="M14 14h2.5v2.5H14zM18 18h2.5v2.5H18zM14 18.5v2M18.5 14h2"/>`,
+  star:`<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>`,
+  gear:`<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>`,
+  back:`<path d="M15 5l-7 7 7 7"/>`,
+  chev:`<path d="M9 5l7 7-7 7"/>`,
+  speaker:`<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>`,
+  clock:`<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>`,
+  tick:`<path d="M5 12.5l4.5 4.5L19 7.5"/>`,
+  warn:`<path d="M12 3.5L21.5 20h-19z"/><path d="M12 10v4.5M12 17.2v.3"/>`,
+  x:`<circle cx="12" cy="12" r="8.5"/><path d="M9 9l6 6M15 9l-6 6"/>`,
+};
+const ic = (n, size=28, color) => `<svg class="ico" viewBox="0 0 24 24" width="${size}" height="${size}" style="width:${size}px;height:${size}px${color?';color:'+color:''}" ${P}>${ICONS[n]}</svg>`;
+
+let lang = 'mr', ts = '1';
+try { lang = localStorage.getItem('ss_lang') || lang; ts = localStorage.getItem('ss_ts') || ts; } catch(e) {}
+const hp = new URLSearchParams(location.hash.slice(1));
+if (hp.get('lang')) lang = hp.get('lang');
+if (hp.get('ts')) ts = hp.get('ts');
+const t = (k) => (S[k] || SAMPLE[k])[LI[lang]];
+const sub = (k) => lang === 'en' ? '' : `<div class="en">${S[k][2]}</div>`;
+const status = (dark) => `<div class="status" style="${dark?'background:var(--charcoal);color:#fff':''}"><span>9:41</span><span>▮▮▮</span></div>`;
+
+const SCREENS = {
+  splash: { name:'Splash', ids:'SPL-1 · FR-01', html:() => `${status(true)}<div class="scr"><div class="splash">
+      <img src="../brand/logo_yellow_512.png" alt="">
+      <div class="wordmark">SITE <span>SAATHI</span></div>
+      <div class="tag">${t('tagline')}</div>
+      ${lang==='en'?'':`<div class="tag2">${S.tagline[2]}</div>`}
+      <div class="ver">v1.0</div><div class="stripes"></div></div></div>` },
+
+  language: { name:'Language selection', ids:'LNG-1 · LNG-2 · FR-02', html:() => `${status()}<div class="scr"><div class="lang">
+      <div class="head"><img src="../brand/logo_yellow_512.png" alt=""><div>${S.lang_title.join('<br>')}</div></div>
+      ${[['mr','मराठी'],['hi','हिंदी'],['en','English']].map(([c,n]) => `<div class="lang-btn ${c===lang?'sel':''}"><span class="n">${n}</span>${c===lang?ic('tick',26):''}<span class="spk">${ic('speaker',24)}</span></div>`).join('')}
+      <div class="ok"><button class="btn btn-primary">${ic('chev',22)} ${t('btn_next')}</button></div></div></div>` },
+
+  home: { name:'Home', ids:'HOM-1 · HOM-3 · FR-03', html:() => `${status()}<div class="scr">
+      <div class="home-head"><img src="../brand/logo_yellow_512.png" alt=""><div><div class="wm">SITE <span>SAATHI</span></div><div class="tg">${t('tagline')}</div></div></div>
+      <div class="tiles">
+        <div class="tile t-yellow">${ic('book',34)}<div><div class="lb">${t('btn_start')}</div>${sub('btn_start')}</div></div>
+        <div class="tile t-dark">${ic('qr',34)}<div><div class="lb">${t('btn_scan')}</div>${sub('btn_scan')}</div></div>
+        <div class="tile t-green">${ic('star',34,'var(--green)')}<div><div class="lb">${t('btn_skills')}</div>${sub('btn_skills')}</div></div>
+        <div class="tile t-grey">${ic('gear',34)}<div><div class="lb">${t('btn_settings')}</div>${sub('btn_settings')}</div></div>
+      </div>
+      <div class="continue">${ic('book',26)}<div class="tx"><b>${t('continue_card')}</b>${t('mod_con')} · ${t('step_of').replace('{n}',4).replace('{total}',7)}</div>${ic('chev',24)}</div>
+      <div class="v11note">v1.1 adds the blue Ask Saathi bar and a Safety Check tile here (designed on Day 5).</div></div>` },
+
+  modules: { name:'Learning modules', ids:'MOD-1 · FR-04', html:() => `${status(true)}<div class="scr">
+      <div class="appbar"><span class="back">${ic('back',26)}</span><div><div class="t">${t('title_modules')}</div><div class="s"><span class="badge-off" style="color:#7BE0A0">${t('offline_badge')}</span></div></div></div>
+      <div class="mods">${MODS.map(([c,n]) => `<div class="mod ${n?'':'soon'}"><div class="ic"><img src="icons/icon_mod_${c}.svg" alt=""></div><div class="nm">${t('mod_'+c)}</div>${n?`<div class="ct">${t('lbl_lessons')}: ${n}</div>`:`<span class="soon-pill">${t('coming_soon')}</span>`}</div>`).join('')}</div></div>` },
+
+  lessons: { name:'Lesson list · Brick Masonry', ids:'MOD-2', html:() => `${status(true)}<div class="scr">
+      <div class="appbar"><span class="back">${ic('back',26)}</span><div><div class="t">${t('mod_mas')}</div><div class="s">${t('lbl_lessons')}: 1</div></div></div>
+      <div class="lesson"><div class="th"><img src="icons/icon_mod_mas.svg" alt=""></div><div class="bd">
+        <span class="chip">SS-MAS-01</span>
+        <div class="tt">${t('title_mas')}</div>
+        <div class="meta"><span>${ic('clock',16)} 5 ${t('lbl_min')}</span><span>${ic('speaker',16)} ${t('lbl_audio')}</span><span class="done">${ic('tick',16)} ${t('skills_completed')}</span></div>
+      </div></div>
+      <div class="more">${t('coming_soon')}</div></div>` },
+};
+
+function apply() {
+  document.documentElement.lang = lang;
+  document.documentElement.style.setProperty('--ts', ts);
+  document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+  document.querySelectorAll('[data-ts]').forEach(b => b.setAttribute('aria-pressed', b.dataset.ts === ts));
+  document.querySelectorAll('[data-s]').forEach(e => e.textContent = t(e.dataset.s));
+  document.querySelectorAll('[data-sample]').forEach(e => e.textContent = SAMPLE[e.dataset.sample][LI[lang]]);
+  document.querySelectorAll('[data-icon]').forEach(e => e.innerHTML = ic(e.dataset.icon, 22));
+  const solo = hp.get('solo');
+  if (solo && SCREENS[solo]) {
+    document.body.classList.add('solo');
+    document.getElementById('solo').innerHTML = `<div class="phone">${SCREENS[solo].html()}</div>`;
+    return;
+  }
+  document.getElementById('screens').innerHTML = Object.values(SCREENS).map(s =>
+    `<div class="shot"><h3>${s.name}</h3><div class="k">${s.ids}</div><div class="phone">${s.html()}</div></div>`).join('');
+}
+
+document.getElementById('swatches').innerHTML = [
+  ['Helmet yellow','#FFC21A','Main action, highlights, QR posters, mistakes box'],
+  ['Site charcoal','#1B1F24','Text, headers, dark tiles'],
+  ['Blueprint blue','#2563EB','Only AI (v1.1): Ask Saathi, Why?, Helmet Check'],
+  ['Go green','#15A34A','Correct, completed, available offline'],
+  ['Danger red','#DC2626','Safety box, wrong answer'],
+  ['Concrete white','#FBFAF7','Screen background'],
+].map(([n,h,u]) => `<div class="card"><div class="swatch" style="background:${h};${h==='#FBFAF7'?'border:1px solid var(--line)':''}"></div><b>${n}</b><div class="k"><code>${h}</code> · App Inventor <code>&amp;HFF${h.slice(1)}</code></div><div class="k">${u}</div></div>`).join('');
+document.getElementById('iconrow').innerHTML = MODS.map(([c]) =>
+  `<div style="text-align:center"><div style="background:var(--tint-yellow);border-radius:14px;padding:10px"><img src="icons/icon_mod_${c}.svg" width="44" height="44" alt=""></div><div class="k">${c.toUpperCase()}</div></div>`).join('');
+
+document.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => { lang = b.dataset.lang; try { localStorage.setItem('ss_lang', lang); } catch(e) {} apply(); });
+document.querySelectorAll('[data-ts]').forEach(b => b.onclick = () => { ts = b.dataset.ts; try { localStorage.setItem('ss_ts', ts); } catch(e) {} apply(); });
+apply();
+</script>
+</body>
+</html>

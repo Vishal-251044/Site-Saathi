@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SITE SAATHI Prototype</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Noto+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="ui.css">
+<style>
+  /* ---------- prototype shell ---------- */
+  .proto { display:grid; grid-template-columns:300px 1fr; gap:24px; align-items:start; }
+  .panel { background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px; position:sticky; top:16px; }
+  .panel h1 { font:800 26px/1 "Barlow Condensed",var(--font); margin:0 0 4px; }
+  .panel p { margin:0 0 12px; font-size:13px; color:var(--mut); }
+  .panel h4 { margin:14px 0 6px; font-size:12px; letter-spacing:.6px; text-transform:uppercase; color:var(--mut); }
+  .pbtns { display:flex; flex-wrap:wrap; gap:6px; }
+  .pbtn { min-height:40px; padding:6px 10px; border-radius:9px; border:1px solid var(--line); background:#fff; font:600 13px var(--font); color:var(--charcoal); cursor:pointer; }
+  .pbtn[aria-pressed="true"] { background:var(--charcoal); color:#fff; border-color:var(--charcoal); }
+  .pbtn.cur { outline:3px solid var(--yellow); }
+  .stage { display:flex; justify-content:center; }
+  .stage .phone { width:360px; max-width:100%; }
+  .links a { color:var(--charcoal); font-weight:600; font-size:13px; }
+  @media (max-width:860px) { .proto { grid-template-columns:1fr; } .panel { position:static; } }
+
+  /* ---------- extra app components (Day 5 screens) ---------- */
+  button { cursor:pointer; font-family:var(--font); color:inherit; }
+  button.lang-btn { width:100%; text-align:left; }
+  button.mod, button.lesson, button.skrow, button.continue, button.rev { font-family:var(--font); }
+  .hero img { width:100%; aspect-ratio:3/2; object-fit:cover; display:block; border-bottom:1px solid var(--line); }
+  .desc { padding:12px 14px 0; font-size:calc(15px*var(--ts)); color:#3b3f45; line-height:1.5; }
+  .objective { margin:10px 14px; background:#fff; border:1px solid var(--line); border-left:5px solid var(--yellow); border-radius:12px; padding:10px 12px; font-size:calc(15px*var(--ts)); }
+  .objective b { display:block; font-size:calc(12px*var(--ts)); color:var(--mut); margin-bottom:2px; }
+  .sec-h { padding:12px 14px 4px; font:700 calc(13px*var(--ts)) var(--font); color:var(--mut); }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; padding:0 14px 6px; }
+  .chips span { background:#fff; border:1px solid var(--line); border-radius:20px; padding:5px 10px; font-size:calc(13px*var(--ts)); }
+  .steptext { padding:14px 16px 8px; font:600 calc(19px*var(--ts))/1.45 var(--font); }
+  .dots { display:flex; gap:5px; padding:4px 16px; } .dots i { flex:1; height:6px; border-radius:3px; background:#E2DED6; }
+  .dots i.done { background:var(--charcoal); } .dots i.on { background:var(--yellow); }
+  .audio { margin:10px 14px; background:var(--charcoal); color:#fff; border-radius:16px; display:flex; align-items:center; gap:10px; padding:8px 10px; min-height:64px; }
+  .audio .play { width:48px; height:48px; border-radius:50%; background:var(--yellow); color:var(--charcoal); display:grid; place-items:center; border:0; flex:none; }
+  .audio .rs { width:48px; height:48px; border-radius:12px; background:none; border:0; color:#fff; display:grid; place-items:center; flex:none; }
+  .audio .lb { font:700 calc(14px*var(--ts)) var(--font); }
+  .wave { flex:1; display:flex; align-items:center; gap:3px; height:30px; } .wave i { flex:1; border-radius:2px; background:#5d636c; }
+  .wave.on i { background:var(--yellow); }
+  .navrow { display:grid; grid-template-columns:1fr 1.6fr; gap:10px; padding:10px 14px 16px; margin-top:auto; }
+  .bottom { padding:10px 14px 16px; margin-top:auto; }
+  .list { margin:0; padding:2px 0 0 18px; } .list li { margin:3px 0; }
+  .boxes { padding:14px; display:flex; flex-direction:column; gap:10px; }
+  .note-draft { margin:8px 14px 0; font-size:11px; color:#6b5a22; background:#FFF8E1; border:1px dashed #E8C766; border-radius:8px; padding:5px 8px; }
+  /* quiz */
+  .qbar { height:8px; background:#E2DED6; border-radius:4px; margin:14px 14px 0; overflow:hidden; } .qbar i { display:block; height:100%; background:var(--yellow); }
+  .qnum { padding:10px 14px 0; font:600 calc(13px*var(--ts)) var(--font); color:var(--mut); }
+  .qtext { padding:6px 14px 12px; font:700 calc(20px*var(--ts))/1.35 var(--font); }
+  .opt { display:flex; align-items:center; gap:12px; width:calc(100% - 28px); margin:0 14px 10px; min-height:60px; background:#fff; border:2px solid var(--line);
+         border-radius:14px; padding:8px 12px; font:600 calc(16px*var(--ts))/1.35 var(--font); text-align:left; color:var(--charcoal); }
+  .opt .L { width:34px; height:34px; border-radius:9px; background:var(--tile-grey); display:grid; place-items:center; font-weight:700; flex:none; }
+  .opt.right { border-color:var(--green); background:#E7F5EC; } .opt.right .L { background:var(--green); color:#fff; }
+  .opt.wrong { border-color:var(--red); background:#FDECEC; } .opt.wrong .L { background:var(--red); color:#fff; }
+  .opt[disabled] { cursor:default; }
+  .fb { margin:0 14px 10px; border-radius:12px; padding:10px 12px; font-size:calc(14px*var(--ts)); line-height:1.45; }
+  .fb.ok { background:#E7F5EC; border:1px solid #A7DDB9; } .fb.no { background:#FDECEC; border:1px solid #F3B4B4; }
+  .fb b { display:flex; align-items:center; gap:6px; margin-bottom:2px; }
+  .btn-ai { background:var(--blue); color:#fff; }
+  .score { text-align:center; padding:22px 14px 6px; }
+  .score .ring { width:150px; height:150px; border-radius:50%; margin:0 auto 10px; display:grid; place-items:center; border:12px solid var(--yellow); font:800 46px "Barlow Condensed",var(--font); }
+  .score.good .ring { border-color:var(--green); }
+  .score .lb { font:700 calc(18px*var(--ts)) var(--font); }
+  .ans { display:flex; gap:10px; align-items:flex-start; margin:0 14px 8px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:10px 12px; font-size:calc(14px*var(--ts)); }
+  .ans .q { color:var(--mut); font-size:calc(12px*var(--ts)); }
+  /* scan */
+  .viewfinder { margin:14px; height:290px; border-radius:18px; background:#111418; position:relative; display:grid; place-items:center; overflow:hidden; flex:none; }
+  .vf-box { width:190px; height:190px; position:relative; }
+  .vf-box i { position:absolute; width:42px; height:42px; border:6px solid var(--yellow); }
+  .vf-box i:nth-child(1) { top:0; left:0; border-right:0; border-bottom:0; border-radius:12px 0 0 0; }
+  .vf-box i:nth-child(2) { top:0; right:0; border-left:0; border-bottom:0; border-radius:0 12px 0 0; }
+  .vf-box i:nth-child(3) { bottom:0; left:0; border-right:0; border-top:0; border-radius:0 0 0 12px; }
+  .vf-box i:nth-child(4) { bottom:0; right:0; border-left:0; border-top:0; border-radius:0 0 12px 0; }
+  .vf-line { position:absolute; left:14px; right:14px; height:3px; background:var(--yellow); top:50%; box-shadow:0 0 12px var(--yellow); animation:scanline 1.8s ease-in-out infinite alternate; }
+  @keyframes scanline { from { top:12%; } to { top:88%; } }
+  @media (prefers-reduced-motion:reduce) { .vf-line { animation:none; } }
+  body.solo .vf-line { animation:none; }
+  .vf-hint { position:absolute; bottom:12px; left:12px; right:12px; text-align:center; color:#fff; font-size:calc(14px*var(--ts)); }
+  .typecode { display:flex; gap:8px; padding:0 14px; }
+  .typecode input { flex:1; min-width:0; min-height:56px; border-radius:12px; border:2px solid var(--line); padding:0 12px; font:700 calc(17px*var(--ts)) var(--font); text-transform:uppercase; background:#fff; color:var(--charcoal); }
+  .typecode .btn { width:auto; padding:0 18px; }
+  .msg-no { margin:12px 14px 0; border:2px solid var(--red); background:#FDECEC; border-radius:12px; padding:12px; display:flex; gap:10px; font:600 calc(15px*var(--ts))/1.45 var(--font); }
+  .msg-no small { display:block; font-weight:400; color:var(--mut); margin-top:2px; }
+  /* skills */
+  .sum { margin:14px; background:var(--charcoal); color:#fff; border-radius:16px; padding:14px; display:flex; align-items:center; gap:14px; }
+  .sum .big { font:800 42px/1 "Barlow Condensed",var(--font); color:var(--yellow); }
+  .sum .pbar { background:#3a3f46; margin-top:8px; }
+  .pbar { height:10px; background:#E2DED6; border-radius:5px; overflow:hidden; } .pbar i { display:block; height:100%; background:var(--green); }
+  .skrow { margin:0 14px 8px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:10px 12px; display:flex; gap:10px; align-items:center; min-height:64px; }
+  .skrow .tt { flex:1; font:700 calc(15px*var(--ts))/1.3 var(--font); }
+  .skrow .tt small { display:block; font-weight:400; color:var(--mut); font-size:calc(12px*var(--ts)); }
+  .pill { display:inline-block; font:600 calc(12px*var(--ts)) var(--font); padding:3px 8px; border-radius:20px; white-space:nowrap; }
+  .p-done { background:#E7F5EC; color:#0f7a37; } .p-view { background:var(--tint-yellow); color:#6b4f00; } .p-none { background:#EFEDE8; color:#5b6068; }
+  .badges { display:flex; gap:10px; padding:4px 14px 14px; flex-wrap:wrap; }
+  .badge { width:86px; text-align:center; font-size:calc(11px*var(--ts)); line-height:1.3; }
+  .badge .m { width:64px; height:64px; border-radius:50%; margin:0 auto 4px; display:grid; place-items:center; background:var(--yellow); border:3px solid var(--charcoal); }
+  .badge .m img { width:36px; height:36px; } .badge.off .m { background:#EFEDE8; border-color:#CFC9BD; } .badge.off img { opacity:.4; } .badge.off { color:var(--mut); }
+  .rev { margin:0 14px 12px; border:2px solid var(--yellow); border-radius:14px; padding:10px 12px; background:#fff; display:flex; gap:10px; align-items:center; min-height:64px; }
+  .rev .tx { flex:1; font-size:calc(14px*var(--ts)); } .rev .tx b { display:block; font-size:calc(12px*var(--ts)); color:var(--mut); }
+  /* settings / about */
+  .set { margin:10px 14px; background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .set .row { display:flex; align-items:center; gap:10px; min-height:56px; padding:8px 12px; border-bottom:1px solid var(--line); font:600 calc(15px*var(--ts)) var(--font); background:none; width:100%; text-align:left; border-left:0; border-right:0; border-top:0; color:var(--charcoal); }
+  .set .row:last-child { border-bottom:0; } .set .row .sp { flex:1; } .set .row .val { color:var(--mut); font-weight:400; }
+  .set .hd { padding:10px 12px 0; font:700 calc(13px*var(--ts)) var(--font); color:var(--mut); }
+  .segbig { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; padding:8px 12px 12px; } .segbig.two { grid-template-columns:1fr 1fr; }
+  .segbig button { min-height:48px; border-radius:10px; border:2px solid var(--line); background:#fff; font:700 calc(16px*var(--ts)) var(--font); color:var(--charcoal); }
+  .segbig button.on { background:var(--yellow); border-color:var(--yellow); }
+  .tag11 { font:700 10px var(--font); background:#EFEDE8; color:#5b6068; padding:2px 6px; border-radius:6px; }
+  .btn-danger { background:#fff; color:var(--red); border:2px solid var(--red); }
+  .about { padding:22px 16px 6px; text-align:center; } .about img { width:84px; height:84px; }
+  .about .wm { font:800 34px/1 "Barlow Condensed",sans-serif; margin-top:8px; } .about .wm span { color:var(--rust); }
+  .about p { font-size:calc(15px*var(--ts)); margin:8px 0 0; }
+  .ver { display:inline-block; margin-top:8px; padding:6px 12px; border-radius:20px; background:#EFEDE8; font:600 calc(13px*var(--ts)) var(--font); border:0; color:var(--charcoal); min-height:40px; }
+  .disc { margin:12px 14px; border-left:5px solid var(--red); background:#FDECEC; border-radius:10px; padding:10px 12px; font-size:calc(14px*var(--ts)); }
+  /* home v1.1 */
+  .askhome { margin:2px 14px 10px; background:var(--blue); color:#fff; border-radius:16px; padding:12px; display:flex; gap:12px; align-items:center; min-height:72px; border:0; width:calc(100% - 28px); text-align:left; }
+  .askhome .mc { width:48px; height:48px; border-radius:50%; background:#fff; color:var(--blue); display:grid; place-items:center; flex:none; }
+  .askhome .lb { font:700 calc(18px*var(--ts)) var(--font); } .askhome .sb { font-size:calc(12px*var(--ts)); opacity:.85; }
+  .safetile { margin:0 14px 10px; background:#EEF3FE; border:1px solid #C9D8FB; border-radius:16px; padding:12px; display:flex; gap:12px; align-items:center; min-height:64px; width:calc(100% - 28px); text-align:left; color:var(--charcoal); }
+  .safetile .lb { flex:1; font:700 calc(16px*var(--ts)) var(--font); } .safetile .sb { display:block; font-weight:400; font-size:calc(12px*var(--ts)); color:var(--mut); }
+  /* ask */
+  .appbar.ai { background:var(--blue); }
+  .aipill { font:700 11px var(--font); background:#fff; color:var(--blue); padding:2px 7px; border-radius:6px; margin-left:6px; vertical-align:2px; }
+  .newchat { margin-left:auto; min-height:44px; padding:0 10px; border-radius:10px; border:1.5px solid rgba(255,255,255,.7); background:none; color:#fff; font:600 calc(13px*var(--ts)) var(--font); }
+  .chat { flex:1; padding:12px 14px; display:flex; flex-direction:column; gap:10px; }
+  .bub { max-width:86%; border-radius:16px; padding:10px 12px; font-size:calc(15px*var(--ts)); line-height:1.5; }
+  .bub.me { align-self:flex-end; background:var(--charcoal); color:#fff; border-bottom-right-radius:4px; }
+  .bub.ai { align-self:flex-start; background:#EEF3FE; border:1px solid #C9D8FB; border-bottom-left-radius:4px; }
+  .ailabel { display:flex; align-items:center; gap:5px; font:600 calc(11px*var(--ts)) var(--font); color:var(--blue); margin-top:8px; }
+  .relbtn { margin-top:8px; display:inline-flex; gap:6px; align-items:center; border:2px solid var(--blue); color:var(--blue); background:#fff; border-radius:10px; padding:6px 10px; font:600 calc(13px*var(--ts)) var(--font); min-height:44px; }
+  .sugg { display:flex; gap:6px; flex-wrap:wrap; padding:0 14px 8px; } .sugg .k2 { width:100%; font-size:calc(12px*var(--ts)); color:var(--mut); }
+  .sugg button { border:1px solid #C9D8FB; color:var(--blue); background:#fff; border-radius:20px; padding:6px 12px; font:600 calc(13px*var(--ts)) var(--font); min-height:40px; }
+  .askbar { display:flex; gap:8px; align-items:center; padding:10px 14px 14px; border-top:1px solid var(--line); background:#fff; }
+  .askbar input { flex:1; min-width:0; min-height:52px; border-radius:26px; border:2px solid var(--line); padding:0 16px; font:calc(15px*var(--ts)) var(--font); }
+  .mic { width:60px; height:60px; border-radius:50%; background:var(--blue); color:#fff; border:0; display:grid; place-items:center; flex:none; }
+  .offline { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; gap:14px; font:600 calc(17px*var(--ts))/1.45 var(--font); }
+  .offline .ic0 { width:84px; height:84px; border-radius:50%; background:#EFEDE8; display:grid; place-items:center; }
+  /* helmet */
+  .photo { margin:14px; aspect-ratio:4/3; border-radius:16px; background:#2a2f36; display:grid; place-items:center; overflow:hidden; flex:none; }
+  .res { margin:0 14px 10px; border-radius:14px; padding:12px; display:flex; gap:10px; align-items:center; font:700 calc(16px*var(--ts))/1.35 var(--font); }
+  .res.ok { background:#E7F5EC; border:2px solid var(--green); } .res.no { background:#FDECEC; border:2px solid var(--red); }
+  .res .conf { display:block; font:600 calc(12px*var(--ts)) var(--font); color:var(--mut); margin-top:2px; }
+  .smallnote { margin:0 14px 10px; font-size:calc(13px*var(--ts)); color:var(--mut); display:flex; gap:6px; align-items:center; }
+  /* supervisor */
+  .pin { flex:1; display:flex; flex-direction:column; align-items:center; padding:22px 16px; gap:16px; font:700 calc(18px*var(--ts)) var(--font); }
+  .pdots { display:flex; gap:14px; } .pdots i { width:18px; height:18px; border-radius:50%; border:2px solid var(--charcoal); } .pdots i.on { background:var(--charcoal); }
+  .keys { display:grid; grid-template-columns:repeat(3,72px); gap:12px; }
+  .keys button { height:64px; border-radius:16px; border:1px solid var(--line); background:#fff; font:700 24px var(--font); color:var(--charcoal); }
+  .wt { margin:14px; background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .wt table { width:100%; border-collapse:collapse; font-size:calc(14px*var(--ts)); }
+  .wt th, .wt td { padding:10px 6px; border-bottom:1px solid var(--line); text-align:center; }
+  .wt th { background:#F4F2EE; font-size:12px; } .wt td:first-child, .wt th:first-child { text-align:left; padding-left:12px; }
+  .wt tr:last-child td { border-bottom:0; } .ok5 { color:var(--green); font-weight:700; } .lo5 { color:#a15c00; font-weight:700; }
+  .btnrow { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:4px 14px 16px; margin-top:auto; }
+  /* overlays */
+  .modal { position:absolute; inset:0; background:rgba(27,31,36,.55); display:grid; place-items:center; padding:20px; z-index:5; }
+  .modal .card { width:100%; border-radius:18px; font:600 calc(16px*var(--ts))/1.45 var(--font); }
+  .toast { position:absolute; left:14px; right:14px; bottom:18px; background:var(--charcoal); color:#fff; border-radius:12px; padding:12px 14px; font-size:14px; z-index:6; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.25); }
+  .gal-note { font-size:13px; color:var(--mut); margin:-4px 0 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="proto" id="proto">
+    <aside class="panel" aria-label="Prototype controls">
+      <h1>SITE SAATHI · Prototype</h1>
+      <p>Day 5 · clickable · tap inside the phone. Content comes from <code>content/sheet/*.csv</code> (<span id="built"></span>).</p>
+      <h4>Language · text size</h4>
+      <div class="pbtns" id="c-lang"></div>
+      <div class="pbtns" style="margin-top:6px" id="c-ts"></div>
+      <h4>Release features</h4>
+      <div class="pbtns">
+        <button class="pbtn" data-a="v11">Show v1.1 (AI, Supervisor)</button>
+        <button class="pbtn" data-a="offline">Phone offline</button>
+        <button class="pbtn" data-a="helmetNo">Helmet result: no helmet</button>
+      </div>
+      <h4>Simulate a QR scan</h4>
+      <div class="pbtns">
+        <button class="pbtn" data-a="scan" data-v="SS-MAS-01">SS-MAS-01</button>
+        <button class="pbtn" data-a="scan" data-v=" ss-mas-01 ">" ss-mas-01 " (trim + upcase)</button>
+        <button class="pbtn" data-a="scan" data-v="SS-TEST-99">SS-TEST-99</button>
+        <button class="pbtn" data-a="scan" data-v="upi://pay">A UPI QR</button>
+      </div>
+      <h4>Jump to screen</h4>
+      <div class="pbtns" id="c-jump"></div>
+      <h4>More</h4>
+      <div class="pbtns">
+        <button class="pbtn" data-a="wipe">Clear saved scores</button>
+      </div>
+      <p class="links" style="margin-top:12px"><a href="#gallery" id="to-gallery">All screens (gallery)</a> · <a href="UI_Design_Part1.html">Style guide</a></p>
+    </aside>
+    <div class="stage" id="stage"></div>
+  </div>
+  <div id="gallery" hidden>
+    <div class="top"><div><h1 style="font:800 30px/1 'Barlow Condensed',sans-serif;margin:0">SITE SAATHI · All screens (Day 5)</h1>
+      <p style="margin:4px 0 0;color:var(--mut);font-size:14px">v1.0 MVP and v1.1 screens with sample states. <a href="#">Back to the clickable prototype</a></p></div>
+      <div class="pbtns" id="g-lang"></div></div>
+    <h2>v1.0 · MVP</h2><div class="screens" id="g10"></div>
+    <h2>v1.1 · Admin-free AI and Supervisor screens (blue = AI)</h2>
+    <p class="gal-note">AI answers shown are design samples only; real answers come from the ChatBot on Day 18 and are checked by the expert.</p>
+    <div class="screens" id="g11"></div>
+  </div>
+  <div id="solo"></div>
+</div>
+
+<script src="data.js"></script>
+<script>
+'use strict';
+const D = window.SS_DATA;
+const MODS = ['MAS','CON','SAF','REI','CUR','QUA'];
+const LANG_NAMES = { mr:'मराठी', hi:'हिंदी', en:'English' };
+
+// ---------- icons (24-grid, stroke) ----------
+const ICONS = {
+  book:'<path d="M4 6c3-1.5 6-1.5 8 0v13c-2-1.5-5-1.5-8 0zM20 6c-3-1.5-6-1.5-8 0v13c2-1.5 5-1.5 8 0z"/>',
+  qr:'<rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1"/><path d="M14 14h2.5v2.5H14zM18 18h2.5v2.5H18zM14 18.5v2M18.5 14h2"/>',
+  star:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>',
+  gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
+  back:'<path d="M15 5l-7 7 7 7"/>', chev:'<path d="M9 5l7 7-7 7"/>',
+  speaker:'<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>', tick:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  warn:'<path d="M12 3.5L21.5 20h-19z"/><path d="M12 10v4.5M12 17.2v.3"/>', x:'<circle cx="12" cy="12" r="8.5"/><path d="M9 9l6 6M15 9l-6 6"/>',
+  xs:'<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+  play:'<path d="M8 5.5v13l11-6.5z" fill="currentColor"/>', pause:'<path d="M8.5 5.5v13M15.5 5.5v13" stroke-width="3.4"/>',
+  restart:'<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v4h4"/>',
+  mic:'<rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/>',
+  camera:'<path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+  share:'<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.3 10.8l7.4-3.6M8.3 13.2l7.4 3.6"/>',
+  lock:'<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>', plus:'<path d="M12 5v14M5 12h14"/>',
+  info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8v.3"/>', wifioff:'<path d="M3 3l18 18M8.5 16.5a5 5 0 0 1 7 0M5 13a10 10 0 0 1 5-2.7M14 10.3A10 10 0 0 1 19 13M12 20v.3"/>',
+  helmet:'<path d="M4 16a8 8 0 0 1 16 0"/><path d="M10.5 8.5V16M13.5 8.5V16"/><path d="M2.5 17h19"/>', users:'<circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3 6"/>',
+};
+const ic = (n, s = 24, color) => `<svg class="ico" viewBox="0 0 24 24" width="${s}" height="${s}" style="width:${s}px;height:${s}px${color ? ';color:' + color : ''}" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
+const esc = (x) => String(x).replace(/[&<>"]/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+
+// ---------- state ----------
+const DEFAULTS = { lang:'mr', langChosen:false, ts:'1', v11:false, offline:false, helmetNo:false, screen:'splash', module:'MAS',
+  lessonId:'SS-MAS-01', step:0, quiz:null, scores:{}, dates:{}, viewed:{}, last:null, scan:null, playing:false, modal:null, pin:'', supUnlocked:false, aboutTaps:0 };
+let st = { ...DEFAULTS };
+try { Object.assign(st, JSON.parse(localStorage.getItem('ss_proto') || '{}')); } catch (e) {}
+st.screen = 'splash'; st.modal = null; st.scan = null; st.playing = false;
+function save() { try { const { lang, langChosen, ts, v11, scores, dates, viewed, last } = st; localStorage.setItem('ss_proto', JSON.stringify({ lang, langChosen, ts, v11, scores, dates, viewed, last })); } catch (e) {} }
+
+// ---------- data helpers (same rules the app blocks will use) ----------
+let S = st; // the state being rendered
+const t = (k) => { const r = D.strings[k]; return r ? (r[S.lang] || r.en) : k; };
+const fmt = (k, o) => t(k).replace(/\{(\w+)\}/g, (_, x) => o[x]);
+const lessonIds = (mod) => [...new Set(D.lessons.filter((r) => r.module === mod).map((r) => r.id))];
+const lesson = (id) => D.lessons.find((r) => r.id === id && r.lang === S.lang) || D.lessons.find((r) => r.id === id && r.lang === 'en');
+const quizOf = (id) => { const q = D.quiz.filter((r) => r.lesson_id === id && r.lang === S.lang); return (q.length ? q : D.quiz.filter((r) => r.lesson_id === id && r.lang === 'en')).sort((a, b) => a.q_no - b.q_no); };
+const allLessonIds = () => [...new Set(D.lessons.map((r) => r.id))];
+const draftNote = (L) => L && L.lang !== S.lang ? `<div class="note-draft">Design note: lesson text is the English draft. Marathi and Hindi are added on Day 8.</div>` : '';
+const status = (dark) => `<div class="status" style="${dark ? 'background:var(--charcoal);color:#fff' : ''}"><span>9:41</span><span>▮▮▮</span></div>`;
+const statusAI = () => `<div class="status" style="background:var(--blue);color:#fff"><span>9:41</span><span>▮▮▮</span></div>`;
+const appbar = (title, sub, backTo, extra = '', cls = '') => `<div class="appbar ${cls}"><button class="back" style="background:none;border:0;color:#fff" data-a="go" data-v="${backTo}" aria-label="${t('btn_back')}">${ic('back', 26)}</button><div style="min-width:0"><div class="t">${title}</div>${sub ? `<div class="s">${sub}</div>` : ''}</div>${extra}</div>`;
+const wave = (on) => `<div class="wave ${on ? 'on' : ''}">${[8,14,22,12,26,18,10,24,16,28,12,20,9,17,25,11,19,7,15,22].map((h) => `<i style="height:${h}px"></i>`).join('')}</div>`;
+const audioBar = () => `<div class="audio"><button class="play" data-a="play" aria-label="${t(S.playing ? 'btn_pause' : 'btn_listen')}">${ic(S.playing ? 'pause' : 'play', 24)}</button>${wave(S.playing)}<span class="lb">${t(S.playing ? 'btn_pause' : 'btn_listen')}</span><button class="rs" data-a="restart" aria-label="${t('btn_restart')}">${ic('restart', 22)}</button></div>`;
+const score = (id) => S.scores[id];
+
+// ---------- screens ----------
+const SCREENS = {
+  splash: { name:'Splash', ids:'SPL-1', render:() => `${status(true)}<div class="scr"><div class="splash" data-a="splashgo" style="cursor:pointer">
+      <img src="../brand/logo_yellow_512.png" alt=""><div class="wordmark">SITE <span>SAATHI</span></div>
+      <div class="tag">${t('tagline')}</div>${S.lang === 'en' ? '' : `<div class="tag2">${D.strings.tagline.en}</div>`}
+      <div class="ver">v1.0</div><div class="stripes"></div></div></div>` },
+
+  language: { name:'Language selection', ids:'LNG-1 · LNG-2', render:() => `${status()}<div class="scr"><div class="lang">
+      <div class="head"><img src="../brand/logo_yellow_512.png" alt=""><div>${['mr','hi','en'].map((l) => D.strings.lang_title[l]).join('<br>')}</div></div>
+      ${['mr','hi','en'].map((c) => `<button class="lang-btn ${c === S.lang && S.langChosen ? 'sel' : ''}" data-a="pickLang" data-v="${c}"><span class="n">${LANG_NAMES[c]}</span>${c === S.lang && S.langChosen ? ic('tick', 26) : ''}<span class="spk">${ic('speaker', 24)}</span></button>`).join('')}
+      <div class="ok"><button class="btn btn-primary" data-a="go" data-v="home" ${S.langChosen ? '' : 'disabled style="opacity:.5"'}>${t('btn_next')} ${ic('chev', 22)}</button></div></div></div>` },
+
+  home: { name:'Home', ids:'HOM-1 · HOM-3 · HOM-4', render:() => {
+      const sub = (k) => S.lang === 'en' ? '' : `<div class="en">${D.strings[k].en}</div>`;
+      const L = S.last && lesson(S.last.id);
+      const weak = S.v11 && allLessonIds().find((id) => score(id) != null && score(id) < 3);
+      return `${status()}<div class="scr">
+      <div class="home-head"><img src="../brand/logo_yellow_512.png" alt=""><div><div class="wm">SITE <span>SAATHI</span></div><div class="tg">${t('tagline')}</div></div></div>
+      <div class="tiles">
+        <button class="tile t-yellow" data-a="go" data-v="modules" style="border:0;text-align:left">${ic('book', 34)}<div><div class="lb">${t('btn_start')}</div>${sub('btn_start')}</div></button>
+        <button class="tile t-dark" data-a="go" data-v="scan" style="border:0;text-align:left">${ic('qr', 34)}<div><div class="lb">${t('btn_scan')}</div>${sub('btn_scan')}</div></button>
+        <button class="tile t-green" data-a="go" data-v="skills" style="border:0;text-align:left;color:var(--charcoal)">${ic('star', 34, 'var(--green)')}<div><div class="lb">${t('btn_skills')}</div>${sub('btn_skills')}</div></button>
+        <button class="tile t-grey" data-a="go" data-v="settings" style="border:0;text-align:left;color:var(--charcoal)">${ic('gear', 34)}<div><div class="lb">${t('btn_settings')}</div>${sub('btn_settings')}</div></button>
+      </div>
+      ${S.v11 ? `<button class="askhome" data-a="go" data-v="ask"><span class="mc">${ic('mic', 26)}</span><span><span class="lb">${t('ask_title')}</span><br><span class="sb">AI · ${t('ask_needs_net')}</span></span></button>
+        <button class="safetile" data-a="go" data-v="helmet">${ic('helmet', 30, 'var(--blue)')}<span class="lb">${t('safety_check')}<span class="sb">AI · ${t('lbl_camera')}</span></span>${ic('chev', 22)}</button>` : ''}
+      ${L ? `<button class="continue" data-a="cont" style="text-align:left;width:calc(100% - 28px);color:var(--charcoal)">${ic('book', 26)}<div class="tx"><b>${t('continue_card')}</b>${esc(L.title)} · ${S.last.step > 0 && S.last.step <= L.steps.length ? fmt('step_of', { n:S.last.step, total:L.steps.length }) : t('mod_' + L.module.toLowerCase())}</div>${ic('chev', 24)}</button>` : ''}
+      ${weak ? `<button class="rev" data-a="openLesson" data-v="${weak}" style="width:calc(100% - 28px);text-align:left;color:var(--charcoal)">${ic('restart', 26)}<div class="tx"><b>${t('rev_suggest')}</b>${t('rev_repeat')}: ${esc(lesson(weak).title)} (${score(weak)}/5)</div>${ic('chev', 22)}</button>` : ''}
+      </div>`; } },
+
+  modules: { name:'Learning modules', ids:'MOD-1', render:() => `${status(true)}<div class="scr">
+      ${appbar(t('title_modules'), `<span class="badge-off" style="color:#7BE0A0">${t('offline_badge')}</span>`, 'home')}
+      <div class="mods">${MODS.map((c) => { const n = lessonIds(c).length; return `<button class="mod ${n ? '' : 'soon'}" ${n ? `data-a="module" data-v="${c}"` : 'data-a="soon"'} style="text-align:left;color:var(--charcoal)"><div class="ic"><img src="icons/icon_mod_${c.toLowerCase()}.svg" alt=""></div><div class="nm">${t('mod_' + c.toLowerCase())}</div>${n ? `<div class="ct">${t('lbl_lessons')}: ${n}</div>` : `<span class="soon-pill">${t('coming_soon')}</span>`}</button>`; }).join('')}</div></div>` },
+
+  lessons: { name:'Lesson list', ids:'MOD-2', render:() => { const ids = lessonIds(S.module); return `${status(true)}<div class="scr">
+      ${appbar(t('mod_' + S.module.toLowerCase()), `${t('lbl_lessons')}: ${ids.length}`, 'modules')}
+      ${ids.map((id) => { const L = lesson(id); const sc = score(id); return `<button class="lesson" data-a="openLesson" data-v="${id}" style="text-align:left;color:var(--charcoal);width:calc(100% - 28px)"><div class="th"><img src="icons/icon_mod_${L.module.toLowerCase()}.svg" alt=""></div><div class="bd">
+        <span class="chip">${id}</span><div class="tt">${esc(L.title)}</div>
+        <div class="meta"><span>${ic('clock', 16)} ${L.duration_min} ${t('lbl_min')}</span>${L.audio ? `<span>${ic('speaker', 16)} ${t('lbl_audio')}</span>` : ''}${sc != null ? `<span class="done">${ic('tick', 16)} ${t('skills_completed')}</span>` : S.viewed[id] ? `<span class="pill p-view">${t('skills_viewed')}</span>` : ''}</div></div></button>`; }).join('')}
+      <div class="more">${t('coming_soon')}</div></div>`; } },
+
+  lesson: { name:'Lesson', ids:'LES-1 · LES-2 · LES-3 · AUD-1', render:() => {
+      const L = lesson(S.lessonId), n = L.steps.length, k = S.step;
+      const sub = k === 0 ? `<span class="chip">${L.id}</span>` : k <= n ? `${fmt('step_of', { n:k, total:n })} · <span class="badge-off" style="color:#7BE0A0;display:inline-flex">${t('offline_badge')}</span>` : t('lbl_safety');
+      let body;
+      if (k === 0) body = `<div class="hero"><img src="../media/${L.img[0]}" alt=""></div>${draftNote(L)}
+        <div class="desc">${esc(L.desc)}</div>
+        <div class="objective"><b>${t('lbl_objective')}</b>${esc(L.objective)}</div>
+        <div class="sec-h">${t('lbl_materials')}</div><div class="chips">${L.materials.map((m) => `<span>${esc(m)}</span>`).join('')}</div>
+        ${audioBar()}<div class="bottom"><button class="btn btn-primary" data-a="next">${t('btn_next')} ${ic('chev', 22)}</button></div>`;
+      else if (k <= n) body = `<div class="hero"><img src="../media/${L.img[k - 1]}" alt=""></div>${draftNote(L)}
+        <div class="dots">${L.steps.map((_, i) => `<i class="${i + 1 < k ? 'done' : i + 1 === k ? 'on' : ''}"></i>`).join('')}</div>
+        <div class="steptext">${esc(L.steps[k - 1])}</div>${audioBar()}
+        <div class="navrow"><button class="btn btn-outline" data-a="prev">${ic('back', 22)} ${t('btn_back')}</button><button class="btn btn-primary" data-a="next">${t('btn_next')} ${ic('chev', 22)}</button></div>`;
+      else body = `${draftNote(L)}<div class="boxes">
+        <div class="box box-safety"><b>${ic('warn', 22)}${t('lbl_safety')}</b><ul class="list">${L.safety.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div class="box box-mistake"><b>${ic('x', 22)}${t('lbl_mistakes')}</b><ul class="list">${L.mistakes.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div></div>
+        <div class="navrow"><button class="btn btn-outline" data-a="prev">${ic('back', 22)} ${t('btn_back')}</button><button class="btn btn-primary" data-a="qstart">${t('btn_start_quiz')}</button></div>`;
+      return `${status(true)}<div class="scr">${appbar(esc(L.title), sub, 'lessons')}${body}</div>`; } },
+
+  quiz: { name:'Quiz', ids:'QZ-1 · QZ-2', render:() => {
+      const Q = quizOf(S.quiz.id), i = S.quiz.i, q = Q[i], p = S.quiz.picks[i], L = lesson(S.quiz.id);
+      const fb = p ? `<div class="fb ${p === q.correct ? 'ok' : 'no'}"><b>${ic(p === q.correct ? 'tick' : 'xs', 18)}${t(p === q.correct ? 'quiz_correct' : 'quiz_wrong')}</b>${t('lbl_explanation')}: ${esc(q.explanation)}</div>
+        ${S.v11 && p !== q.correct ? `<div style="padding:0 14px 10px"><button class="btn btn-ai" data-a="why" style="min-height:48px">${t('btn_why')} · AI</button></div>` : ''}` : '';
+      return `${status(true)}<div class="scr">${appbar(esc(L.title), t('btn_start_quiz'), 'lesson')}
+        <div class="qbar"><i style="width:${(i + 1) / Q.length * 100}%"></i></div>${draftNote(lesson(S.quiz.id))}
+        <div class="qnum">${fmt('quiz_q_of', { n:i + 1, total:Q.length })}</div><div class="qtext">${esc(q.question)}</div>
+        ${['A','B','C','D'].map((Lt) => { const cls = p ? (Lt === q.correct ? 'right' : Lt === p ? 'wrong' : '') : ''; return `<button class="opt ${cls}" data-a="pick" data-v="${Lt}" ${p ? 'disabled' : ''}><span class="L">${cls === 'right' ? ic('tick', 18) : cls === 'wrong' ? ic('xs', 18) : Lt}</span>${esc(q[Lt.toLowerCase()])}</button>`; }).join('')}
+        ${fb}${p ? `<div class="bottom"><button class="btn btn-primary" data-a="qnext">${i < Q.length - 1 ? t('btn_next') : t('quiz_score')} ${ic('chev', 22)}</button></div>` : ''}</div>`; } },
+
+  result: { name:'Quiz result', ids:'QZ-3 · QZ-4 · SKL-2', render:() => {
+      const Q = quizOf(S.quiz.id), picks = S.quiz.picks, sc = Q.filter((q, i) => picks[i] === q.correct).length, good = sc >= 4;
+      return `${status(true)}<div class="scr">${appbar(esc(lesson(S.quiz.id).title), t('quiz_score'), 'lessons')}
+        <div class="score ${good ? 'good' : ''}"><div class="ring">${sc} / ${Q.length}</div><div class="lb">${t('quiz_score')}</div></div>
+        ${good ? `<div class="badges" style="justify-content:center"><div class="badge"><div class="m"><img src="icons/icon_mod_${lesson(S.quiz.id).module.toLowerCase()}.svg" alt=""></div>${t('mod_' + lesson(S.quiz.id).module.toLowerCase())}</div></div>` : ''}
+        <div class="sec-h">${t('lbl_correct_answers')}</div>
+        ${Q.map((q, i) => `<div class="ans">${picks[i] === q.correct ? ic('tick', 22, 'var(--green)') : ic('xs', 22, 'var(--red)')}<div><div class="q">${esc(q.question)}</div><b>${q.correct}. ${esc(q[q.correct.toLowerCase()])}</b></div></div>`).join('')}
+        <div class="btnrow"><button class="btn btn-outline" data-a="qstart">${ic('restart', 20)} ${t('btn_retry')}</button><button class="btn btn-primary" data-a="go" data-v="lessons">${t('btn_back_lessons')}</button></div></div>`; } },
+
+  scan: { name:'Scan task QR', ids:'QR-1 · QR-3 · QR-4', render:() => `${status(true)}<div class="scr">${appbar(t('btn_scan'), '', 'home')}
+      <div class="viewfinder"><div class="vf-box"><i></i><i></i><i></i><i></i></div><div class="vf-line"></div><div class="vf-hint">${t('scan_hint')}</div></div>
+      ${S.scan ? `<div class="msg-no">${ic('warn', 24, 'var(--red)')}<div>${t(S.scan.kind === 'notss' ? 'qr_not_ss' : 'qr_not_found')}<small>${esc(S.scan.code)}</small></div></div>` : ''}
+      <div class="sec-h">${t('scan_type_code')}</div>
+      <form class="typecode" data-form="code"><input id="code" placeholder="SS-MAS-01" aria-label="${t('scan_type_code')}" autocomplete="off"><button class="btn btn-primary" type="submit">${t('btn_open')}</button></form>
+      <div style="height:16px"></div></div>` },
+
+  skills: { name:'My Skills', ids:'SKL-1 · SKL-2', render:() => {
+      const ids = allLessonIds(), done = ids.filter((id) => score(id) != null).length;
+      const weak = S.v11 && ids.find((id) => score(id) != null && score(id) < 3);
+      return `${status(true)}<div class="scr">${appbar(t('btn_skills'), '', 'home')}
+      <div class="sum"><div class="big">${done}/${ids.length}</div><div style="flex:1">${t('skills_completed')}<div class="pbar"><i style="width:${ids.length ? done / ids.length * 100 : 0}%"></i></div></div></div>
+      ${weak ? `<button class="rev" data-a="openLesson" data-v="${weak}" style="width:calc(100% - 28px);text-align:left;color:var(--charcoal)">${ic('restart', 26)}<div class="tx"><b>${t('rev_suggest')}</b>${t('rev_repeat')}: ${esc(lesson(weak).title)} (${score(weak)}/5)</div>${ic('chev', 22)}</button>` : ''}
+      ${MODS.filter((m) => lessonIds(m).length).map((m) => { const li = lessonIds(m), d = li.filter((id) => score(id) != null).length; return `<div class="sec-h" style="display:flex;gap:10px;align-items:center"><span style="flex:1">${t('mod_' + m.toLowerCase())}</span><span>${d}/${li.length}</span></div>
+        <div style="padding:0 14px 8px"><div class="pbar"><i style="width:${d / li.length * 100}%"></i></div></div>
+        ${li.map((id) => { const sc = score(id); return `<button class="skrow" data-a="openLesson" data-v="${id}" style="width:calc(100% - 28px);text-align:left;color:var(--charcoal)"><div class="tt">${esc(lesson(id).title)}<small>${id}</small></div>${sc != null ? `<span class="pill p-done">${t('skills_best')}: ${sc}/5</span>` : S.viewed[id] ? `<span class="pill p-view">${t('skills_viewed')}</span>` : `<span class="pill p-none">${t('skills_not_started')}</span>`}</button>`; }).join('')}`; }).join('')}
+      <div class="sec-h">${t('skills_badges')}</div>
+      <div class="badges">${MODS.filter((m) => lessonIds(m).length).map((m) => { const on = lessonIds(m).some((id) => score(id) >= 4); return `<div class="badge ${on ? '' : 'off'}"><div class="m"><img src="icons/icon_mod_${m.toLowerCase()}.svg" alt=""></div>${t('mod_' + m.toLowerCase())}</div>`; }).join('')}</div></div>`; } },
+
+  settings: { name:'Settings', ids:'SET-1 · SET-3 · FR-23', render:() => `${status(true)}<div class="scr">${appbar(t('btn_settings'), '', 'home')}
+      <div class="set"><div class="hd">${t('set_language')}</div><div class="segbig">${['mr','hi','en'].map((c) => `<button class="${c === S.lang ? 'on' : ''}" data-a="lang" data-v="${c}">${LANG_NAMES[c]}</button>`).join('')}</div></div>
+      <div class="set"><div class="hd">${t('set_text_size')}</div><div class="segbig two"><button class="${S.ts === '1' ? 'on' : ''}" data-a="ts" data-v="1">${t('set_normal')}</button><button class="${S.ts !== '1' ? 'on' : ''}" data-a="ts" data-v="1.2" style="font-size:calc(19px*var(--ts))">${t('set_large')}</button></div></div>
+      ${S.v11 ? `<div class="set"><div class="hd">${t('set_voice_speed')} <span class="tag11">v1.1</span></div><div class="segbig two"><button class="on" data-a="toast" data-v="voice">${t('set_slow')}</button><button data-a="toast" data-v="voice">${t('set_normal')}</button></div></div>` : ''}
+      <div class="set">
+        <button class="row" data-a="toast" data-v="voicehelp">${ic('speaker', 22)}<span class="sp">${t('set_voice_help')}</span>${ic('chev', 20)}</button>
+        <div class="row">${ic('book', 22)}<span class="sp">${t('set_storage')}</span><span class="val">${allLessonIds().length}</span></div>
+        ${S.v11 ? `<button class="row" data-a="go" data-v="supervisor">${ic('users', 22)}<span class="sp">${t('sup_title')}</span><span class="tag11">v1.1</span>${ic('chev', 20)}</button>` : ''}
+        <button class="row" data-a="go" data-v="about">${ic('info', 22)}<span class="sp">${t('btn_about')}</span>${ic('chev', 20)}</button>
+      </div>
+      <div style="padding:6px 14px 18px"><button class="btn btn-danger" data-a="askReset">${t('set_reset')}</button></div>
+      ${S.modal === 'reset' ? `<div class="modal"><div class="card"><div style="margin-bottom:14px">${t('confirm_reset')}</div><div class="btnrow" style="padding:0"><button class="btn btn-outline" data-a="no">${t('btn_no')}</button><button class="btn btn-danger" data-a="yes" style="background:var(--red);color:#fff">${t('btn_yes')}</button></div></div></div>` : ''}</div>` },
+
+  about: { name:'About', ids:'SET-2 · LES-5 · ADM-1 entry', render:() => `${status(true)}<div class="scr">${appbar(t('btn_about'), '', 'settings')}
+      <div class="about"><img src="../brand/logo_yellow_512.png" alt=""><div class="wm">SITE <span>SAATHI</span></div><p>${t('about_purpose')}</p>
+        <button class="ver" data-a="verTap">${t('lbl_version')} 1.0</button></div>
+      <div class="set">
+        <div class="row"><span class="sp">${t('lbl_developer')}</span><span class="val">Vaibhav C. Jadhav · RIT Sangli</span></div>
+        <div class="row"><span class="sp">${t('lbl_reviewed_by')}</span><span class="val">— (after expert review)</span></div>
+      </div>
+      <div class="disc">${t('disclaimer')}</div></div>` },
+
+  // ---------- v1.1 ----------
+  ask: { name:'Ask Saathi', ids:'ASK-1 · ASK-3 · ASK-4 · ASK-5', v11:true, render:() => {
+      const sample = { q:{ mr:'विटा पाण्यात का भिजवायच्या?', hi:'ईंटें पानी में क्यों भिगोते हैं?', en:'Why do we soak bricks in water?' },
+        a:{ mr:'कोरड्या विटा मसाल्यातील पाणी शोषतात. मग मसाला कमकुवत होतो आणि नीट चिकटत नाही. म्हणून बुडबुडे येणे थांबेपर्यंत विटा भिजवा.', hi:'सूखी ईंटें मसाले का पानी सोख लेती हैं। तब मसाला कमज़ोर होता है और ठीक से नहीं चिपकता। इसलिए बुलबुले बंद होने तक ईंटें भिगोएँ।', en:'Dry bricks soak up the water in the mortar. Then the mortar becomes weak and does not stick well. So soak the bricks until the bubbles stop.' },
+        s:{ mr:['क्युरिंग किती दिवस करायचे?','मसाल्याचे प्रमाण काय?'], hi:['क्योरिंग कितने दिन करें?','मसाले का अनुपात क्या है?'], en:['How many days of curing?','What mortar ratio?'] } };
+      const bar = appbar(`${t('ask_title')}<span class="aipill">AI</span>`, t('ask_needs_net'), 'home', `<button class="newchat" data-a="toast" data-v="newchat">${t('btn_new_chat')}</button>`, 'ai');
+      if (S.offline) return `${statusAI()}<div class="scr">${bar}<div class="offline"><div class="ic0">${ic('wifioff', 40)}</div>${t('ask_offline')}<button class="btn btn-primary" data-a="go" data-v="modules">${ic('book', 22)} ${t('btn_start')}</button></div></div>`;
+      return `${statusAI()}<div class="scr">${bar}<div class="chat">
+        <div class="bub me">${sample.q[S.lang]}</div>
+        <div class="bub ai">${sample.a[S.lang]}<div class="ailabel">${ic('info', 14)} ${t('ask_ai_label')}</div><button class="relbtn" data-a="openLesson" data-v="SS-MAS-01">${ic('book', 18)} ${t('btn_open')} SS-MAS-01</button></div></div>
+        <div class="sugg"><span class="k2">${t('ask_suggested')}</span>${sample.s[S.lang].map((x) => `<button data-a="toast" data-v="ai">${x}</button>`).join('')}</div>
+        <div class="askbar"><input placeholder="${t('ask_placeholder')}" aria-label="${t('ask_placeholder')}"><button class="mic" data-a="toast" data-v="mic" aria-label="mic">${ic('mic', 28)}</button></div></div>`; } },
+
+  helmet: { name:'Helmet Check', ids:'HLM-3 · HLM-4', v11:true, render:() => {
+      const no = S.helmetNo;
+      const pic = `<svg viewBox="0 0 200 150" width="100%" height="100%" aria-hidden="true"><rect width="200" height="150" fill="#3a4049"/><circle cx="100" cy="70" r="26" fill="#C9A27E"/><path d="M48 150c4-34 26-50 52-50s48 16 52 50z" fill="#E86A1A"/><path d="M58 150c3-22 14-34 24-38M142 150c-3-22-14-34-24-38" stroke="#FFC21A" stroke-width="6" fill="none"/>${no ? '<path d="M74 60c4-16 16-22 26-22s22 6 26 22" fill="#2b2b2b"/>' : '<path d="M68 64a32 32 0 0 1 64 0z" fill="#FFC21A" stroke="#1B1F24" stroke-width="3"/><rect x="62" y="62" width="76" height="8" rx="4" fill="#FFC21A" stroke="#1B1F24" stroke-width="3"/><rect x="96" y="34" width="8" height="28" rx="4" fill="#e0a800"/>'}</svg>`;
+      return `${statusAI()}<div class="scr">${appbar(`${t('safety_check')}<span class="aipill">AI</span>`, t('lbl_camera'), 'home', '', 'ai')}
+        <div class="photo">${pic}</div>
+        <div class="res ${no ? 'no' : 'ok'}">${ic(no ? 'warn' : 'tick', 30, no ? 'var(--red)' : 'var(--green)')}<div>${t(no ? 'helmet_no' : 'helmet_ok')}<span class="conf">${t('lbl_confidence')}: ${no ? 88 : 92}%</span></div></div>
+        <div class="smallnote">${ic('info', 18)} ${t('helmet_disclaimer')}</div>
+        <div class="btnrow"><button class="btn btn-outline" data-a="openLesson" data-v="SS-SAF-01">${ic('book', 20)} ${t('mod_saf')}</button><button class="btn btn-ai" data-a="toast" data-v="photo">${ic('camera', 22)} ${t('btn_take_photo')}</button></div></div>`; } },
+
+  supervisor: { name:'Supervisor Mode', ids:'SUP-1 · SUP-2 · SUP-4', v11:true, render:() => {
+      if (!S.supUnlocked) return `${status(true)}<div class="scr">${appbar(t('sup_title'), '', 'settings')}<div class="pin">${ic('lock', 40)}${t('sup_enter_pin')}
+        <div class="pdots">${[0,1,2,3].map((i) => `<i class="${i < S.pin.length ? 'on' : ''}"></i>`).join('')}</div>
+        <div class="keys">${['1','2','3','4','5','6','7','8','9','','0','⌫'].map((k) => k ? `<button data-a="key" data-v="${k}">${k}</button>` : '<span></span>').join('')}</div></div></div>`;
+      const W = [['Ramesh','mason',{ 'SS-MAS-01':4 }],['Sunita','helper',{ 'SS-MAS-01':3 }],['Arjun','bar bender',{}]];
+      const cols = ['SS-MAS-01','SS-CON-01','SS-SAF-01'];
+      return `${status(true)}<div class="scr">${appbar(t('sup_title'), `${t('sup_workers')}: ${W.length}`, 'settings')}
+        <div class="wt"><table><tr><th>${t('sup_workers')}</th>${cols.map((c) => `<th>${c.slice(3, 6)}</th>`).join('')}</tr>
+        ${W.map(([n, tr, sc]) => `<tr><td><b>${n}</b><br><span style="color:var(--mut);font-size:12px">${tr}</span></td>${cols.map((c) => sc[c] != null ? `<td class="${sc[c] >= 4 ? 'ok5' : 'lo5'}">${sc[c]}/5</td>` : '<td style="color:#aaa">–</td>').join('')}</tr>`).join('')}</table></div>
+        <div class="smallnote">${ic('info', 18)} First name + trade only. Stored on this phone.</div>
+        <div class="btnrow"><button class="btn btn-outline" data-a="toast" data-v="addworker">${ic('plus', 20)} ${t('btn_add_worker')}</button><button class="btn btn-primary" data-a="toast" data-v="share">${ic('share', 20)} ${t('btn_share')}</button></div></div>`; } },
+};
+
+// ---------- actions ----------
+let toastMsg = '', toastTimer, splashTimer;
+const TOASTS = { voice:'Read-aloud speed (v1.1, Day 17).', voicehelp:'Opens help: Settings → Text-to-speech → install Marathi / Hindi voice.', newchat:'New chat clears the conversation (ResetConversation).',
+  ai:'Sends the question to the ChatBot (Day 18).', mic:'Speak now: SpeechRecognizer in the chosen language (Day 18).', photo:'Opens the camera; the model runs on the phone (Day 19).',
+  addworker:'Add first name + trade (no phone numbers).', share:'Opens the share menu (WhatsApp etc.) with a text summary.',
+  why:'Online: AI explains in 2–3 simple sentences. Offline: the saved explanation above is shown.', soon:null };
+function toast(m) { toastMsg = m; clearTimeout(toastTimer); render(); toastTimer = setTimeout(() => { toastMsg = ''; render(); }, 2600); }
+function go(screen) { st.screen = screen; st.playing = false; if (screen !== 'scan') st.scan = null; }
+function openLesson(id) {
+  if (!D.lessons.some((r) => r.id === id)) { toast(fmtT('qr_not_found')); return; }
+  st.lessonId = id; st.step = 0; st.last = { id, step:0 }; st.module = lesson(id).module; go('lesson');
+}
+const fmtT = (k) => { S = st; return t(k); };
+function processCode(raw) {
+  const c = String(raw).trim().toUpperCase();
+  if (!c.startsWith('SS-')) { go('scan'); st.scan = { code:c, kind:'notss' }; return; }
+  if (D.lessons.some((r) => r.id === c)) { openLesson(c); return; }
+  go('scan'); st.scan = { code:c, kind:'notfound' };
+}
+function act(a, v) {
+  switch (a) {
+    case 'go': go(v); break;
+    case 'splashgo': go(st.langChosen ? 'home' : 'language'); break;
+    case 'pickLang': st.lang = v; st.langChosen = true; S = st; toast(D.strings.lang_prompt[v]); break;
+    case 'lang': st.lang = v; st.langChosen = true; break;
+    case 'ts': st.ts = v; break;
+    case 'v11': st.v11 = !st.v11; break;
+    case 'offline': st.offline = !st.offline; if (st.offline && st.v11) go('ask'); break;
+    case 'helmetNo': st.helmetNo = !st.helmetNo; if (st.v11) go('helmet'); break;
+    case 'module': st.module = v; go('lessons'); break;
+    case 'soon': toast(fmtT('coming_soon')); return;
+    case 'openLesson': openLesson(v); break;
+    case 'cont': if (st.last) { openLesson(st.last.id); st.step = st.last.step; } break;
+    case 'next': { const n = lesson(st.lessonId).steps.length; st.step = Math.min(st.step + 1, n + 1); st.playing = false; if (st.step === n + 1) st.viewed[st.lessonId] = 1; st.last = { id:st.lessonId, step:st.step }; break; }
+    case 'prev': st.step = Math.max(0, st.step - 1); st.playing = false; break;
+    case 'play': st.playing = !st.playing; break;
+    case 'restart': st.playing = true; break;
+    case 'qstart': st.quiz = { id:st.lessonId, i:0, picks:[] }; go('quiz'); break;
+    case 'pick': if (!st.quiz.picks[st.quiz.i]) st.quiz.picks[st.quiz.i] = v; break;
+    case 'qnext': { const Q = quizOf(st.quiz.id); if (st.quiz.i < Q.length - 1) st.quiz.i++; else {
+        const sc = Q.filter((q, i) => st.quiz.picks[i] === q.correct).length, id = st.quiz.id;
+        st.scores[id] = Math.max(sc, st.scores[id] ?? 0); st.dates[id] = new Date().toISOString().slice(0, 10); go('result'); } break; }
+    case 'why': toast(TOASTS.why); return;
+    case 'scan': processCode(v); break;
+    case 'askReset': st.modal = 'reset'; break;
+    case 'no': st.modal = null; break;
+    case 'yes': st.modal = null; st.scores = {}; st.dates = {}; st.viewed = {}; st.last = null; break;
+    case 'wipe': st.scores = {}; st.dates = {}; st.viewed = {}; st.last = null; st.langChosen = false; go('splash'); break;
+    case 'verTap': st.aboutTaps++; if (st.aboutTaps >= 5) { st.aboutTaps = 0; toast('Admin Mode login opens here (hidden, v1.1, Day 15).'); return; } break;
+    case 'key': if (v === '⌫') st.pin = st.pin.slice(0, -1); else st.pin += v; if (st.pin.length === 4) { st.supUnlocked = true; st.pin = ''; } break;
+    case 'toast': toast(TOASTS[v]); return;
+    case 'jump': go(v); if (v === 'quiz' && !st.quiz) st.quiz = { id:'SS-MAS-01', i:0, picks:[] }; if (v === 'result' && !st.quiz) st.quiz = { id:'SS-MAS-01', i:4, picks:['B','A','D','C','A'] }; if (SCREENS[v].v11) st.v11 = true; break;
+  }
+  save(); render();
+}
+document.addEventListener('click', (e) => { const el = e.target.closest('[data-a]'); if (el && !el.disabled) { e.preventDefault(); act(el.dataset.a, el.dataset.v); } });
+document.addEventListener('submit', (e) => { if (e.target.dataset.form === 'code') { e.preventDefault(); processCode(e.target.querySelector('input').value); save(); render(); } });
+
+// ---------- render ----------
+function phone(state, key) { S = state; return `<div class="phone">${SCREENS[key].render()}${state === st && toastMsg ? `<div class="toast">${esc(toastMsg)}</div>` : ''}</div>`; }
+function render() {
+  document.documentElement.lang = st.lang;
+  document.documentElement.style.setProperty('--ts', st.ts);
+  const mode = location.hash.slice(1);
+  const hp = new URLSearchParams(mode);
+  if (hp.get('solo')) return renderSolo(hp);
+  const gal = mode === 'gallery' || hp.has('gallery');
+  document.getElementById('proto').hidden = gal;
+  document.getElementById('gallery').hidden = !gal;
+  if (gal) return renderGallery();
+  document.getElementById('stage').innerHTML = phone(st, st.screen);
+  document.getElementById('built').textContent = 'built ' + D.built;
+  document.getElementById('c-lang').innerHTML = ['mr','hi','en'].map((c) => `<button class="pbtn" data-a="lang" data-v="${c}" aria-pressed="${st.lang === c}">${LANG_NAMES[c]}</button>`).join('');
+  document.getElementById('c-ts').innerHTML = `<button class="pbtn" data-a="ts" data-v="1" aria-pressed="${st.ts === '1'}">Aa normal</button><button class="pbtn" data-a="ts" data-v="1.2" aria-pressed="${st.ts !== '1'}">Aa+ large</button>`;
+  document.querySelector('[data-a="v11"]').setAttribute('aria-pressed', st.v11);
+  document.querySelector('[data-a="offline"]').setAttribute('aria-pressed', st.offline);
+  document.querySelector('[data-a="helmetNo"]').setAttribute('aria-pressed', st.helmetNo);
+  document.getElementById('c-jump').innerHTML = Object.entries(SCREENS).map(([k, s]) => `<button class="pbtn ${st.screen === k ? 'cur' : ''}" data-a="jump" data-v="${k}">${s.name}${s.v11 ? ' · v1.1' : ''}</button>`).join('');
+  if (st.screen === 'splash') { clearTimeout(splashTimer); splashTimer = setTimeout(() => { if (st.screen === 'splash' && !location.hash) { go(st.langChosen ? 'home' : 'language'); render(); } }, 2200); }
+}
+
+// Gallery presets: every screen in a meaningful state (also used for PNG export)
+const G = [
+  ['splash', 'splash', {}], ['language', 'language', { langChosen:true }], ['home', 'home', { last:{ id:'SS-MAS-01', step:2 } }],
+  ['modules', 'modules', {}], ['lessons', 'lessons', { module:'MAS', viewed:{ 'SS-MAS-01':1 } }],
+  ['lesson-intro', 'lesson', { step:0 }], ['lesson-step', 'lesson', { step:2 }], ['lesson-safety', 'lesson', { step:8 }],
+  ['quiz-answered', 'quiz', { quiz:{ id:'SS-MAS-01', i:1, picks:['B','C'] } }], ['result', 'result', { quiz:{ id:'SS-MAS-01', i:4, picks:['B','A','D','B','A'] } }],
+  ['scan-notfound', 'scan', { scan:{ code:'SS-TEST-99', kind:'notfound' } }], ['skills', 'skills', { scores:{ 'SS-MAS-01':4 }, viewed:{ 'SS-MAS-01':1 } }],
+  ['settings', 'settings', {}], ['about', 'about', {}],
+  ['home-v11', 'home', { v11:true, last:{ id:'SS-MAS-01', step:4 }, scores:{ 'SS-MAS-01':2 } }], ['quiz-why-v11', 'quiz', { v11:true, quiz:{ id:'SS-MAS-01', i:1, picks:['B','C'] } }],
+  ['ask-v11', 'ask', { v11:true }], ['ask-offline-v11', 'ask', { v11:true, offline:true }], ['helmet-ok-v11', 'helmet', { v11:true }],
+  ['helmet-no-v11', 'helmet', { v11:true, helmetNo:true }], ['supervisor-pin-v11', 'supervisor', { v11:true, pin:'12' }], ['supervisor-v11', 'supervisor', { v11:true, supUnlocked:true }],
+];
+const preset = (o) => ({ ...DEFAULTS, lessonId:'SS-MAS-01', lang:st.lang, ts:st.ts, langChosen:true, ...o });
+function renderGallery() {
+  document.getElementById('g-lang').innerHTML = ['mr','hi','en'].map((c) => `<button class="pbtn" data-a="lang" data-v="${c}" aria-pressed="${st.lang === c}">${LANG_NAMES[c]}</button>`).join('');
+  const card = ([slug, key, o]) => `<div class="shot"><h3>${SCREENS[key].name}</h3><div class="k">${SCREENS[key].ids} · <code>${slug}</code></div>${phone(preset(o), key)}</div>`;
+  document.getElementById('g10').innerHTML = G.filter((g) => !g[0].endsWith('v11')).map(card).join('');
+  document.getElementById('g11').innerHTML = G.filter((g) => g[0].endsWith('v11')).map(card).join('');
+  S = st;
+}
+function renderSolo(hp) {
+  const g = G.find((x) => x[0] === hp.get('solo')); if (!g) return;
+  const s = preset({ ...g[2], lang:hp.get('lang') || st.lang });
+  document.documentElement.lang = s.lang;
+  document.body.classList.add('solo');
+  document.getElementById('solo').innerHTML = phone(s, g[1]);
+}
+window.addEventListener('hashchange', render);
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{
+ "ran_at": "2026-11-20T16:13:38.054Z",
+ "aia": "app-inventor/SITE_SAATHI.aia",
+ "rows": [
+  {
+   "rule": "Every button at least 48 high (touch target)",
+   "pass": true,
+   "detail": "44 buttons, smallest 48"
+  },
+  {
+   "rule": "Text size at least 12 sp (body 16–18 used for lesson text)",
+   "pass": true,
+   "detail": "smallest is the version line (12 sp)"
+  },
+  {
+   "rule": "Every text component uses the bundled Noto Devanagari font",
+   "pass": true,
+   "detail": "all labels and text buttons"
+  },
+  {
+   "rule": "No internet components in v1.0 (OFF-1)",
+   "pass": true,
+   "detail": "none"
+  },
+  {
+   "rule": "At most 9 Screens (CLAUDE.md)",
+   "pass": true,
+   "detail": "9 Screens"
+  },
+  {
+   "rule": "Step pictures compressed (< 150 KB each)",
+   "pass": true,
+   "detail": "21 pictures, largest 48 KB"
+  },
+  {
+   "rule": "APK size target < 30 MB (PRD 10.15)",
+   "pass": true,
+   "detail": "media 1.68 MB + App Inventor runtime ≈ 6 MB → ≈ 7.7 MB"
+  },
+  {
+   "rule": "Longest mr step fits one screen (≤ 180 characters)",
+   "pass": true,
+   "detail": "145 chars (SS-MAS-01): \"प्रत्येक वीट खाच (फ्रॉग) वर ठेवून लावा आणि प्रत्ये…\""
+  },
+  {
+   "rule": "Longest hi step fits one screen (≤ 180 characters)",
+   "pass": true,
+   "detail": "129 chars (SS-MAS-01): \"हर ईंट का गड्ढा (फ्रॉग) ऊपर रखकर लगाएँ और हर जोड़ …\""
+  },
+  {
+   "rule": "Longest en step fits one screen (≤ 180 characters)",
+   "pass": true,
+   "detail": "134 chars (SS-MAS-01): \"Mix mortar in the ratio your engineer gives, for e…\""
+  },
+  {
+   "rule": "Quiz options fit a 64-high button (≤ 60 characters)",
+   "pass": true,
+   "detail": "longest 57 chars (SS-SAF-01 hi): \"सुपरवाइज़र को बताएँ और प्राथमिक उपचार बॉक्स इस्तेमाल करें\""
+  },
+  {
+   "rule": "Recorded audio for all 9 lesson-language pairs (OB-3)",
+   "pass": false,
+   "detail": "0/9 audio files bundled"
+  }
+ ]
+}

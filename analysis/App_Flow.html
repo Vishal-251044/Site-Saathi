@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SITE SAATHI App Flow</title>
+<style>
+  :root { --y:#FFC21A; --k:#1B1F24; --b:#2563EB; --g:#15A34A; --r:#DC2626; --bg:#FBFAF7; --line:#d8d4cc; --mut:#5b6068; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--k); font:15px/1.45 system-ui,"Segoe UI",sans-serif; }
+  .wrap { max-width:1000px; margin:0 auto; padding:24px 16px 48px; }
+  h1 { font-size:26px; margin:0 0 4px; } .sub { color:var(--mut); margin:0 0 20px; }
+  h2 { font-size:17px; margin:28px 0 10px; }
+  .flow { display:flex; flex-wrap:wrap; align-items:stretch; gap:6px; }
+  .node { background:#fff; border:1px solid var(--line); border-top:5px solid var(--y); border-radius:10px; padding:10px 12px; min-width:120px; flex:1 1 130px; }
+  .node b { display:block; } .node small { color:var(--mut); }
+  .node.k { border-top-color:var(--k); } .node.g { border-top-color:var(--g); } .node.b { border-top-color:var(--b); background:#F3F6FE; } .node.r { border-top-color:var(--r); }
+  .arrow { align-self:center; font-weight:700; color:var(--mut); padding:0 2px; }
+  .branch { border-left:3px dashed var(--line); margin:8px 0 0 12px; padding-left:14px; }
+  table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th, td { padding:8px 10px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { background:var(--k); color:#fff; font-size:13px; }
+  .tag { display:inline-block; font-size:12px; padding:1px 7px; border-radius:6px; background:#eee; }
+  .tag.v11 { background:#E3EBFD; color:var(--b); }
+  @media (max-width:640px) { .arrow { transform:rotate(90deg); width:100%; text-align:center; } .node { flex-basis:100%; } }
+  @media print { body { background:#fff; } }
+</style>
+</head>
+<body><div class="wrap">
+  <h1>SITE SAATHI · App flow</h1>
+  <p class="sub">Day 3 · 20 Nov 2026 · v1.0 MVP screens, with v1.1 additions marked. Every screen is at most 2 taps from Home; Back always returns to Home (HOM-4).</p>
+
+  <h2>1 · First open</h2>
+  <div class="flow">
+    <div class="node k"><b>Splash</b><small>Screen1 · logo, tagline · 2 s</small></div><div class="arrow">→</div>
+    <div class="node"><b>Language?</b><small>TinyDB <code>lang</code> empty → choose मराठी / हिंदी / English</small></div><div class="arrow">→</div>
+    <div class="node"><b>Home</b><small>4 tiles + Continue card</small></div>
+  </div>
+  <p class="sub" style="margin-top:6px">Next opens: Splash → Home directly (language already saved).</p>
+
+  <h2>2 · Learn a lesson (main journey)</h2>
+  <div class="flow">
+    <div class="node"><b>Home</b><small>Start learning</small></div><div class="arrow">→</div>
+    <div class="node"><b>Modules</b><small>Learn · 6 tiles; 3 "Coming soon"</small></div><div class="arrow">→</div>
+    <div class="node"><b>Lesson list</b><small>title, ID, 5 min, audio, tick</small></div><div class="arrow">→</div>
+    <div class="node g"><b>Lesson</b><small>steps 1…7 + picture + audio · Next / Back</small></div><div class="arrow">→</div>
+    <div class="node r"><b>Safety + mistakes</b><small>red box, yellow box · marks <code>viewed_&lt;id&gt;</code></small></div><div class="arrow">→</div>
+    <div class="node"><b>Quiz</b><small>5 questions · right / wrong + explanation</small></div><div class="arrow">→</div>
+    <div class="node g"><b>Result</b><small>4 / 5 · saves <code>score_&lt;id&gt;</code> · Retry / Back to lessons</small></div>
+  </div>
+
+  <h2>3 · QR at the work area</h2>
+  <div class="flow">
+    <div class="node"><b>Home</b><small>Scan task QR</small></div><div class="arrow">→</div>
+    <div class="node k"><b>Scan</b><small>built-in scanner · upcase(trim)</small></div><div class="arrow">→</div>
+    <div class="node"><b>Starts with SS-?</b><small>no → "Not a SITE SAATHI code"</small></div><div class="arrow">→</div>
+    <div class="node"><b>In lessons.csv?</b><small>search on the phone</small></div><div class="arrow">→</div>
+    <div class="node g"><b>Found</b><small>open Learn on that lesson, chosen language</small></div>
+  </div>
+  <div class="branch">
+    <div class="flow">
+      <div class="node r"><b>Not found</b><small>"This lesson is not in the app yet. Please ask your supervisor."</small></div><div class="arrow">→</div>
+      <div class="node"><b>Backup</b><small>Type lesson code box · or lesson list</small></div>
+    </div>
+  </div>
+
+  <h2>4 · Other tiles</h2>
+  <div class="flow">
+    <div class="node"><b>My skills</b><small>viewed / completed, best score, module progress, badges ≥ 4/5</small></div>
+    <div class="node"><b>Settings</b><small>language · text size · reset progress · About (version, reviewer, disclaimer)</small></div>
+    <div class="node"><b>Continue card</b><small>opens <code>last_lesson</code> at <code>last_step</code></small></div>
+  </div>
+
+  <h2>5 · v1.1 additions (Days 15–19)</h2>
+  <div class="flow">
+    <div class="node b"><b>Ask Saathi</b><small>blue bar on Home · mic or text · offline → "needs internet"</small></div>
+    <div class="node b"><b>Why?</b><small>on wrong answer · AI online, saved explanation offline</small></div>
+    <div class="node b"><b>Safety check</b><small>Home tile · photo → helmet / no helmet, on the phone</small></div>
+    <div class="node"><b>Supervisor Mode</b><small>Settings → PIN → workers × lessons</small></div>
+    <div class="node k"><b>Admin Mode</b><small>About → tap version 5× → login</small></div>
+  </div>
+
+  <h2>Screens and what lives inside them</h2>
+  <table>
+    <tr><th>Screen</th><th>Inside (show / hide arrangements)</th><th>Opens</th></tr>
+    <tr><td>Screen1</td><td>Splash, Language</td><td>Home</td></tr>
+    <tr><td>Home</td><td>Header, tiles, Continue <span class="tag v11">+ Ask bar, Safety tile</span></td><td>Learn, Scan, Skills, Settings <span class="tag v11">Ask, Safety</span></td></tr>
+    <tr><td>Learn</td><td>Modules, Lesson list, Lesson</td><td>Quiz (start value = lesson ID)</td></tr>
+    <tr><td>Quiz</td><td>Question, Result</td><td>back to Learn / Home</td></tr>
+    <tr><td>Scan</td><td>Scanner, Type code</td><td>Learn (start value = lesson ID)</td></tr>
+    <tr><td>Skills</td><td>My Skills <span class="tag v11">+ Supervisor</span></td><td>Learn (tap a lesson)</td></tr>
+    <tr><td>Ask <span class="tag v11">v1.1</span></td><td>Chat</td><td>Learn (related lesson)</td></tr>
+    <tr><td>Safety <span class="tag v11">v1.1</span></td><td>Helmet check</td><td>Learn (SS-SAF-01)</td></tr>
+    <tr><td>Settings</td><td>Settings, About</td><td>Screen1 (after language change)</td></tr>
+  </table>
+</div></body>
+</html>

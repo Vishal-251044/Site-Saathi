@@ -1,0 +1,188 @@
+key,mr,hi,en
+app_name,SITE SAATHI,SITE SAATHI,SITE SAATHI
+tagline,साइटवर शिका. आत्मविश्वासाने बांधा.,साइट पर सीखें। भरोसे से बनाएँ।,Learn at the Site. Build with Confidence.
+lang_title,भाषा निवडा,भाषा चुनें,Choose language
+lang_prompt,मराठी निवडा,हिंदी चुनें,Choose English
+btn_start,शिकणे सुरू करा,सीखना शुरू करें,Start learning
+btn_scan,QR स्कॅन करा,QR स्कैन करें,Scan task QR
+btn_skills,माझी कौशल्ये,मेरे कौशल,My skills
+btn_settings,सेटिंग्ज,सेटिंग्स,Settings
+btn_about,माहिती,जानकारी,About
+btn_home,होम,होम,Home
+btn_back,मागे,पीछे,Back
+btn_next,पुढे,आगे,Next
+btn_open,उघडा,खोलें,Open
+btn_yes,होय,हाँ,Yes
+btn_no,नाही,नहीं,No
+continue_card,पुढे चालू ठेवा,जारी रखें,Continue
+step_of,पायरी {n} / {total},चरण {n} / {total},Step {n} of {total}
+offline_badge,ऑफलाइन उपलब्ध,ऑफलाइन उपलब्ध,Available offline
+coming_soon,लवकरच येत आहे,जल्द आ रहा है,Coming soon
+mod_mas,वीट बांधकाम,ईंट की चिनाई,Brick Masonry
+mod_con,काँक्रीट काम,कंक्रीट का काम,Concrete Work
+mod_saf,बांधकाम सुरक्षा,निर्माण सुरक्षा,Construction Safety
+mod_rei,सळई काम,सरिया का काम,Reinforcement Work
+mod_cur,क्युरिंग,क्योरिंग,Curing Techniques
+mod_qua,गुणवत्ता तपासणी,गुणवत्ता जाँच,Quality Control
+lbl_objective,उद्दिष्ट,उद्देश्य,Objective
+lbl_materials,साहित्य आणि साधने,सामग्री और औज़ार,Materials and tools
+lbl_safety,सुरक्षा खबरदारी,सुरक्षा सावधानियाँ,Safety precautions
+lbl_mistakes,नेहमीच्या चुका,आम गलतियाँ,Common mistakes
+btn_listen,ऐका,सुनें,Listen
+btn_pause,थांबवा,रोकें,Pause
+btn_restart,पुन्हा सुरू,फिर से शुरू,Restart
+btn_start_quiz,क्विझ सुरू करा,क्विज़ शुरू करें,Start quiz
+quiz_correct,बरोबर!,सही!,Correct!
+quiz_wrong,चूक,गलत,Wrong
+quiz_score,तुमचे गुण,आपके अंक,Your score
+btn_retry,पुन्हा प्रयत्न करा,फिर से कोशिश करें,Try again
+btn_back_lessons,धड्यांकडे परत,पाठों पर वापस,Back to lessons
+scan_type_code,धड्याचा कोड टाइप करा,पाठ का कोड टाइप करें,Type lesson code
+qr_not_found,हा धडा अजून ॲपमध्ये नाही. कृपया तुमच्या सुपरवायझरला विचारा.,यह पाठ अभी ऐप में नहीं है। कृपया अपने सुपरवाइज़र से पूछें।,This lesson is not in the app yet. Please ask your supervisor.
+qr_not_ss,हा SITE SAATHI कोड नाही,यह SITE SAATHI कोड नहीं है,Not a SITE SAATHI code
+skills_viewed,पाहिले,देखा,Viewed
+skills_completed,पूर्ण,पूरा,Completed
+skills_best,सर्वोत्तम गुण,सबसे अच्छे अंक,Best score
+set_language,भाषा,भाषा,Language
+set_text_size,अक्षरांचा आकार,अक्षरों का आकार,Text size
+set_normal,सामान्य,सामान्य,Normal
+set_large,मोठा,बड़ा,Large
+set_reset,माझी प्रगती पुसा,मेरी प्रगति मिटाएँ,Reset my progress
+confirm_reset,नक्की? सर्व गुण पुसले जातील.,पक्का? सभी अंक मिट जाएँगे।,Are you sure? All scores will be deleted.
+lbl_version,आवृत्ती,संस्करण,Version
+lbl_reviewed_by,तपासणारे,समीक्षक,Reviewed by
+disclaimer,"हे ॲप साइटवरील देखरेख आणि सुरक्षा प्रशिक्षणाला मदत करते, पण त्यांची जागा घेत नाही.","यह ऐप साइट पर निगरानी और सुरक्षा प्रशिक्षण में मदद करता है, लेकिन उनकी जगह नहीं लेता।","This app supports, but does not replace, on-site supervision and safety training."
+title_modules,शिकण्याचे विषय,सीखने के विषय,Learning modules
+lbl_lessons,धडे,पाठ,Lessons
+lbl_min,मिनिटे,मिनट,min
+lbl_audio,ऑडिओ,ऑडियो,Audio
+quiz_q_of,प्रश्न {n} / {total},प्रश्न {n} / {total},Question {n} of {total}
+lbl_explanation,उत्तराचे कारण,जवाब का कारण,Why this answer
+lbl_correct_answers,बरोबर उत्तरे,सही जवाब,Correct answers
+scan_hint,पोस्टरवरील QR कोड चौकटीत धरा,पोस्टर का QR कोड चौखटे में रखें,Hold the poster's QR code inside the box
+skills_badges,माझे बॅज,मेरे बैज,My badges
+skills_not_started,सुरू नाही,शुरू नहीं,Not started
+set_voice_speed,आवाजाचा वेग,आवाज़ की गति,Voice speed
+set_slow,हळू,धीमा,Slow
+set_voice_help,वाचून दाखवण्याचा आवाज कसा बसवायचा,पढ़कर सुनाने वाली आवाज़ कैसे लगाएँ,How to install a reading voice
+set_storage,या फोनवरील धडे,इस फ़ोन पर पाठ,Lessons on this phone
+about_purpose,बांधकाम कामगारांसाठी साइटवर शिकण्याचे मोफत ॲप.,निर्माण मज़दूरों के लिए साइट पर सीखने का मुफ़्त ऐप।,A free app for construction workers to learn at the site.
+lbl_developer,विकसक,डेवलपर,Developer
+ask_title,साथीला विचारा,साथी से पूछें,Ask Saathi
+ask_needs_net,इंटरनेट लागते,इंटरनेट चाहिए,Needs internet
+ask_ai_label,AI उत्तर – सुपरवायझरकडून खात्री करा,AI जवाब – सुपरवाइज़र से पुष्टि करें,AI answer – check with your supervisor
+ask_offline,साथीला इंटरनेट लागते. त्याऐवजी धडे उघडा.,साथी को इंटरनेट चाहिए। इसके बजाय पाठ खोलें।,Saathi needs internet. Open the lessons instead.
+ask_placeholder,तुमचा प्रश्न लिहा,अपना सवाल लिखें,Type your question
+ask_suggested,विचारून पाहा,पूछकर देखें,Try asking
+btn_new_chat,नवीन संवाद,नई बातचीत,New chat
+btn_why,का?,क्यों?,Why?
+safety_check,सुरक्षा तपासणी,सुरक्षा जाँच,Safety check
+lbl_camera,कॅमेरा,कैमरा,Camera
+helmet_ok,हेल्मेट आहे – सुरक्षित रहा,हेलमेट है – सुरक्षित रहें,Helmet on – stay safe
+helmet_no,हेल्मेट नाही – कृपया हेल्मेट घाला,हेलमेट नहीं – कृपया हेलमेट पहनें,No helmet – please wear your helmet
+helmet_disclaimer,फक्त प्रशिक्षणासाठी. ही सुरक्षा तपासणी नाही.,केवल प्रशिक्षण के लिए। यह सुरक्षा निरीक्षण नहीं है।,Training aid only. Not a safety inspection.
+btn_take_photo,फोटो काढा,फोटो लें,Take photo
+lbl_confidence,खात्री,भरोसा,Confidence
+sup_title,सुपरवायझर मोड,सुपरवाइज़र मोड,Supervisor mode
+sup_enter_pin,4 अंकी PIN टाका,4 अंकों का PIN डालें,Enter 4-digit PIN
+sup_workers,कामगार,मज़दूर,Workers
+btn_add_worker,कामगार जोडा,मज़दूर जोड़ें,Add worker
+btn_share,सारांश पाठवा,सारांश भेजें,Share summary
+who_learning,कोण शिकत आहे?,कौन सीख रहा है?,Who is learning?
+rev_suggest,तुमच्यासाठी सुचवलेले,आपके लिए सुझाव,Suggested for you
+rev_repeat,पुन्हा करा,दोहराएँ,Repeat
+set_voice_help_text,"फोनची सेटिंग्ज → भाषा आणि इनपुट → टेक्स्ट-टू-स्पीच → Google → आवाज डेटा डाउनलोड करा → मराठी / हिंदी निवडा.","फ़ोन की सेटिंग्स → भाषा और इनपुट → टेक्स्ट-टू-स्पीच → Google → आवाज़ डेटा डाउनलोड करें → मराठी / हिंदी चुनें।","Phone Settings → Language and input → Text-to-speech → Google → Install voice data → choose Marathi / Hindi."
+audio_missing,या धड्याचा आवाज अजून रेकॉर्ड झालेला नाही.,इस पाठ की आवाज़ अभी रिकॉर्ड नहीं हुई है।,The audio for this lesson is not recorded yet.
+adm_title,कंटेंट टीम लॉगिन,कंटेंट टीम लॉगिन,Content team login
+adm_server,सर्व्हर पत्ता,सर्वर पता,Server address
+adm_email,ईमेल,ईमेल,Email
+adm_password,पासवर्ड,पासवर्ड,Password
+adm_login,लॉगिन करा,लॉगिन करें,Log in
+adm_logout,लॉगआउट,लॉगआउट,Log out
+adm_wait,थांबा…,रुकिए…,Please wait…
+adm_saved,जतन केले,सेव हो गया,Saved
+adm_net_error,इंटरनेट नाही किंवा सर्व्हर त्रुटी. पुन्हा प्रयत्न करा.,इंटरनेट नहीं या सर्वर त्रुटि। फिर से कोशिश करें।,No internet or server error. Try again.
+adm_new_lesson,नवीन धडा,नया पाठ,New lesson
+adm_publish,सर्व फोनवर प्रकाशित करा,सभी फ़ोन पर प्रकाशित करें,Publish to all phones
+adm_confirm_publish,मंजूर धडे सर्व फोनवर प्रकाशित करायचे?,मंज़ूर पाठ सभी फ़ोन पर प्रकाशित करें?,Publish approved lessons to all phones?
+adm_published,प्रकाशित. आवृत्ती,प्रकाशित। संस्करण,Published. Content version
+adm_qr,QR कोड,QR कोड,QR codes
+adm_texts,ॲपमधील मजकूर,ऐप के टेक्स्ट,App texts
+adm_live,चालू,लाइव,Live
+adm_to_review,तपासायचे,समीक्षा बाकी,To review
+adm_module,विषय निवडा,विषय चुनें,Choose module
+adm_duration,वेळ (मिनिटे),समय (मिनट),Duration (minutes)
+adm_f_title,शीर्षक,शीर्षक,Title
+adm_f_desc,वर्णन,विवरण,Description
+adm_one_per_line,प्रत्येक ओळीत एक,हर लाइन में एक,One item per line
+adm_read_aloud,रेकॉर्डिंग नाही: फक्त वाचून दाखवणे,रिकॉर्डिंग नहीं: सिर्फ़ पढ़कर सुनाना,No recording: read-aloud only
+adm_save,जतन करा,सेव करें,Save
+adm_steps,पायऱ्या आणि चित्रे,चरण और चित्र,Steps and pictures
+adm_quiz,क्विझ,क्विज़,Quiz
+adm_submit,तपासणीसाठी पाठवा,समीक्षा के लिए भेजें,Submit for review
+adm_missing,बाकी,बाकी,Missing
+adm_complete,पूर्ण – पाठवू शकता,पूरा – भेज सकते हैं,Complete – ready to submit
+adm_step,पायरी,चरण,Step
+adm_gallery,गॅलरी,गैलरी,Gallery
+adm_upload_photo,चित्र अपलोड करा,चित्र अपलोड करें,Upload picture
+adm_record,रेकॉर्ड करा,रिकॉर्ड करें,Record
+adm_stop,थांबवा,रोकें,Stop
+adm_upload_audio,आवाज अपलोड करा,आवाज़ अपलोड करें,Upload audio
+adm_uploading,अपलोड होत आहे…,अपलोड हो रहा है…,Uploading…
+adm_delete_step,पायरी काढा,चरण हटाएँ,Delete step
+adm_question,प्रश्न,प्रश्न,Question
+adm_correct,बरोबर उत्तर,सही जवाब,Correct answer
+adm_comment,लेखकासाठी सूचना,लेखक के लिए टिप्पणी,Comment for the writer
+adm_approve,मंजूर करा,मंज़ूर करें,Approve
+adm_send_back,परत पाठवा,वापस भेजें,Send back
+adm_place,पोस्टरची जागा,पोस्टर की जगह,Poster place
+adm_printed,छापले,छपा,Printed
+adm_need_ext,आधी Base64 एक्सटेंशनचे ब्लॉक्स जोडा (मार्गदर्शक पाहा).,पहले Base64 एक्सटेंशन के ब्लॉक जोड़ें (गाइड देखें)।,Add the Base64 extension blocks first (see the setup guide).
+adm_pick_photo,आधी फोटो काढा किंवा निवडा.,पहले फोटो लें या चुनें।,Take or pick a picture first.
+adm_record_first,आधी आवाज रेकॉर्ड करा.,पहले आवाज़ रिकॉर्ड करें।,Record the audio first.
+adm_key,की,की,Key
+upd_check,नवीन धडे तपासा,नए पाठ देखें,Check for new lessons
+upd_none,नवीन धडे नाहीत. सर्व धडे अद्ययावत आहेत.,कोई नया पाठ नहीं। सब पाठ नए हैं।,No new lessons. Everything is up to date.
+upd_found,नवीन धडे उपलब्ध: {n} धडे · {f} फाइल्स. आता डाउनलोड करायचे? (Wi-Fi वापरा),नए पाठ उपलब्ध: {n} पाठ · {f} फ़ाइलें। अभी डाउनलोड करें? (Wi-Fi इस्तेमाल करें),New lessons available: {n} lessons · {f} files. Download now? (use Wi-Fi)
+upd_downloading,डाउनलोड होत आहे {i} / {f},डाउनलोड हो रहा है {i} / {f},Downloading {i} / {f}
+upd_done,नवीन धडे तयार. आता इंटरनेटशिवाय वापरा.,नए पाठ तैयार। अब बिना इंटरनेट इस्तेमाल करें।,New lessons ready. They now work without internet.
+upd_failed,डाउनलोड अपूर्ण. जुने धडे तसेच आहेत. पुन्हा प्रयत्न करा.,डाउनलोड अधूरा। पुराने पाठ वैसे ही हैं। फिर से कोशिश करें।,Download not complete. Your old lessons are unchanged. Try again.
+upd_no_server,सर्व्हर पत्ता सेट नाही.,सर्वर पता सेट नहीं है।,Server address is not set.
+upd_available,नवीन धडे उपलब्ध – सेटिंग्जमध्ये डाउनलोड करा,नए पाठ उपलब्ध – सेटिंग्स में डाउनलोड करें,New lessons available – download in Settings
+upd_may_be_new,"हा धडा नवीन असू शकतो. सेटिंग्जमध्ये ""नवीन धडे तपासा"" दाबा.","यह पाठ नया हो सकता है। सेटिंग्स में ""नए पाठ देखें"" दबाएँ।","This lesson may be new. Tap ""Check for new lessons"" in Settings."
+set_downloaded,डाउनलोड केलेल्या फाइल्स,डाउनलोड की गई फ़ाइलें,Downloaded files
+set_clear_dl,डाउनलोड केलेले धडे काढा,डाउनलोड किए पाठ हटाएँ,Clear downloaded lessons
+confirm_clear_dl,डाउनलोड केलेले धडे काढायचे? ॲपमधील मूळ धडे आणि तुमचे गुण राहतील.,डाउनलोड किए पाठ हटाएँ? ऐप के मूल पाठ और आपके अंक बने रहेंगे।,Remove downloaded lessons? The built-in lessons and your scores stay.
+ral_no_voice,या भाषेचा वाचून दाखवणारा आवाज फोनमध्ये नाही.,इस भाषा की पढ़कर सुनाने वाली आवाज़ फ़ोन में नहीं है।,This phone has no reading voice for this language.
+ask_q1,क्युरिंग किती दिवस करायचे?,क्योरिंग कितने दिन करें?,How many days of curing?
+ask_q2,विटा पाण्यात का भिजवायच्या?,ईंटें पानी में क्यों भिगोते हैं?,Why soak bricks in water?
+ask_q3,काँक्रीटमध्ये जास्त पाणी का घालू नये?,कंक्रीट में ज़्यादा पानी क्यों न डालें?,Why not add extra water to concrete?
+ask_q4,हार्नेस कसा अडकवायचा?,हार्नेस कैसे बाँधें?,How do I tie my harness?
+ask_thinking,साथी विचार करत आहे…,साथी सोच रहा है…,Saathi is thinking…
+ask_you,तुम्ही,आप,You
+ask_speak_now,बोला…,बोलिए…,Speak now…
+ask_mic,बोलून विचारा,बोलकर पूछें,Ask by voice
+ask_send,पाठवा,भेजें,Send
+quiz_why_offline,AI ला इंटरनेट लागते. वर दिलेले कारण वाचा.,AI को इंटरनेट चाहिए। ऊपर दिया कारण पढ़ें।,AI needs internet. Read the saved explanation above.
+ai_lang_name,Marathi,Hindi,English
+ai_persona,"You are SITE SAATHI, a helper for construction workers on Indian building sites. Reply only in {lang}. Use very short, simple sentences a worker understands: at most 5 steps and about 120 words. Talk only about construction work, materials, tools and site safety; for any other topic say you can only help with site work. Safety first. For structural decisions, electrical work, work at height or any injury, always say: stop and ask your supervisor or engineer. Never ask for or repeat names, phone numbers or other personal details. If you are not sure, say so and tell them to ask the supervisor. If one of these app lessons fits the question, end with a new line ""LESSON: <id>"" using its id: {lessons}","You are SITE SAATHI, a helper for construction workers on Indian building sites. Reply only in {lang}. Use very short, simple sentences a worker understands: at most 5 steps and about 120 words. Talk only about construction work, materials, tools and site safety; for any other topic say you can only help with site work. Safety first. For structural decisions, electrical work, work at height or any injury, always say: stop and ask your supervisor or engineer. Never ask for or repeat names, phone numbers or other personal details. If you are not sure, say so and tell them to ask the supervisor. If one of these app lessons fits the question, end with a new line ""LESSON: <id>"" using its id: {lessons}","You are SITE SAATHI, a helper for construction workers on Indian building sites. Reply only in {lang}. Use very short, simple sentences a worker understands: at most 5 steps and about 120 words. Talk only about construction work, materials, tools and site safety; for any other topic say you can only help with site work. Safety first. For structural decisions, electrical work, work at height or any injury, always say: stop and ask your supervisor or engineer. Never ask for or repeat names, phone numbers or other personal details. If you are not sure, say so and tell them to ask the supervisor. If one of these app lessons fits the question, end with a new line ""LESSON: <id>"" using its id: {lessons}"
+ai_why_prompt,"A construction worker answered a quiz question wrongly. Question: {q} Their answer: {w} Correct answer: {c} In {lang}, explain in 2 or 3 short simple sentences why the correct answer is right, with an everyday site example. Do not blame the worker.","A construction worker answered a quiz question wrongly. Question: {q} Their answer: {w} Correct answer: {c} In {lang}, explain in 2 or 3 short simple sentences why the correct answer is right, with an everyday site example. Do not blame the worker.","A construction worker answered a quiz question wrongly. Question: {q} Their answer: {w} Correct answer: {c} In {lang}, explain in 2 or 3 short simple sentences why the correct answer is right, with an everyday site example. Do not blame the worker."
+sup_pin_set,नवीन 4 अंकी PIN ठरवा,नया 4 अंकों का PIN बनाएँ,Set a new 4-digit PIN
+sup_pin_wrong,चुकीचा PIN. {n} प्रयत्न बाकी.,गलत PIN। {n} कोशिश बाकी।,Wrong PIN. {n} tries left.
+sup_locked,5 चुकीचे प्रयत्न. 1 मिनिट थांबा.,5 गलत कोशिश। 1 मिनट रुकें।,5 wrong tries. Wait 1 minute.
+sup_name,पहिले नाव,पहला नाम,First name
+sup_trade,काम निवडा,काम चुनें,Choose trade
+trade_mason,गवंडी,मिस्त्री,Mason
+trade_helper,मदतनीस,हेल्पर,Helper
+trade_bar,सळई कामगार,सरिया मज़दूर,Bar bender
+trade_concrete,काँक्रीट कामगार,कंक्रीट मज़दूर,Concrete worker
+trade_other,इतर,अन्य,Other
+sup_no_ids,"फक्त पहिले नाव आणि काम. फोन नंबर, आधार किंवा फोटो नको.","सिर्फ़ पहला नाम और काम। फ़ोन नंबर, आधार या फोटो नहीं।","First name and trade only. No phone numbers, Aadhaar or photos."
+sup_myself,मी स्वतः,मैं ख़ुद,Myself
+sup_lock,सुपरवायझर मोड बंद करा,सुपरवाइज़र मोड बंद करें,Close Supervisor mode
+sup_summary,SITE SAATHI – कामगारांची प्रगती,SITE SAATHI – मज़दूरों की प्रगति,SITE SAATHI – workers' progress
+helmet_need_ext,आधी Personal Image Classifier एक्सटेंशन आणि मॉडेल जोडा (मार्गदर्शक पाहा).,पहले Personal Image Classifier एक्सटेंशन और मॉडल जोड़ें (गाइड देखें)।,Add the Personal Image Classifier extension and model first (see the setup guide).
+helmet_not_supported,हा फोन हेल्मेट तपासणीला सपोर्ट करत नाही.,यह फ़ोन हेलमेट जाँच सपोर्ट नहीं करता।,This phone does not support Helmet Check.
+helmet_photo_stays,"फोटो फोनवरच राहतो, कुठेही पाठवला जात नाही.","फोटो फ़ोन पर ही रहता है, कहीं भेजा नहीं जाता।",The photo stays on this phone; it is never sent anywhere.
+adm_dashboard,डॅशबोर्ड,डैशबोर्ड,Dashboard
+adm_edit_lesson,धडा संपादित करा,पाठ संपादित करें,Edit lesson
