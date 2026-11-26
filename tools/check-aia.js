@@ -19,16 +19,18 @@ for (const scmName of screens) {
   const scr = scmName.split('/').pop().replace('.scm', '');
   const json = JSON.parse(files[scmName].toString().split('\n')[2]);
   const comps = {};
-  (function walk(c) { comps[c.$Name] = c.$Type; for (const [k, v] of Object.entries(c)) if (typeof v === 'string' && /\.(png|jpg|ttf)$/.test(v) && !assets.has(v)) problems.push(`${scr}: designer ${c.$Name}.${k} uses missing asset ${v}`); (c.$Components || []).forEach(walk); })(json.Properties);
+  (function walk(c) { if (c.$Name in comps) problems.push(`${scr}: two components are named ${c.$Name} (App Inventor rejects the import)`); comps[c.$Name] = c.$Type; for (const [k, v] of Object.entries(c)) if (typeof v === 'string' && /\.(png|jpg|ttf)$/.test(v) && !assets.has(v)) problems.push(`${scr}: designer ${c.$Name}.${k} uses missing asset ${v}`); (c.$Components || []).forEach(walk); })(json.Properties);
   // layout: a row of percent-wide children must fit inside its parent (App Inventor % = % of the SCREEN width)
   (function lay(c, avail) {
     const own = parseInt(c.Width || '-1', 10); const mine = own <= -1000 ? -own - 1000 : avail;
     const kids = c.$Components || [];
+    let rest = mine;   // a fill-parent child of a row gets the row minus its percent-wide siblings (e.g. card padding)
     if (/HorizontalArrangement/.test(c.$Type || '')) {
       const sum = kids.reduce((t, k) => { const w = parseInt(k.Width || '-1', 10); return t + (w <= -1000 ? -w - 1000 : 0); }, 0);
       if (sum > mine) problems.push(`${scr}: row ${c.$Name} needs ${sum}% of the screen but its parent has ${mine}% -> it overflows (no side margin)`);
+      rest = mine - sum;
     }
-    kids.forEach((k) => lay(k, mine));
+    kids.forEach((k) => lay(k, /HorizontalArrangement/.test(c.$Type || '') && parseInt(k.Width || '-1', 10) === -2 ? rest : mine));
   })(json.Properties, 100);
   const xml = files[scmName.replace('.scm', '.bky')].toString();
   // components
@@ -61,7 +63,7 @@ for (const scmName of screens) {
     if (!assets.has(m[1]) && !assets.has(m[1].replace(/^\/\//, ''))) problems.push(`${scr}: blocks use missing asset ${m[1]}`);
   }
   // press animation: every pressable picture (designer or set by blocks) needs its "_p" pressed version
-  const PRESS = /^(bg_btn_|tile_|bg_opt|bg_scan_big|bg_card_continue)[\w-]*\.png$/;
+  const PRESS = /^(bg_btn_|tile_|bg_opt|bg_scan_big|bg_card_continue|bg_choice|bg_row)[\w-]*\.png$/;
   const pics = new Set([...xml.matchAll(/<field name="TEXT">([\w.-]+\.png)<\/field>/g)].map((m) => m[1]));
   (function walkP(c) { if (typeof c.Image === 'string') pics.add(c.Image); (c.$Components || []).forEach(walkP); })(json.Properties);
   for (const p of pics) if (PRESS.test(p) && !p.endsWith('_p.png') && !assets.has(p.replace('.png', '_p.png'))) problems.push(`${scr}: ${p} has no pressed picture ${p.replace('.png', '_p.png')}`);

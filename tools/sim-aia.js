@@ -227,7 +227,7 @@ if (require.main === module) {
   ok(s1.get('BtnLangNext', 'Enabled') === 'False', 'Next disabled until a language is chosen');
   s1.fire('BtnMr.Click');
   ok(app.db.lang === 'mr', 'TinyDB lang = mr saved (LNG-2)');
-  ok(s1.get('BtnMr', 'Image') === 'bg_btn_yellow.png' && s1.get('BtnHi', 'Image') === 'bg_btn_outline.png', 'chosen language highlighted');
+  ok(s1.get('BtnMr', 'Image') === 'bg_choice_on.png' && s1.get('BtnHi', 'Image') === 'bg_choice.png', 'chosen language highlighted (yellow card with tick)');
   ok(s1.log.includes('SPEAK: मराठी निवडा'), 'spoken prompt "मराठी निवडा" (LNG-1)', s1.log.join(' | '));
   ok(s1.get('BtnLangNext') === 'पुढे', 'Next button now in Marathi', s1.get('BtnLangNext'));
   s1.fire('BtnLangNext.Click');
@@ -272,17 +272,18 @@ if (require.main === module) {
   ok(L.log.includes('ALERT: जल्द आ रहा है') && L.visible('ArrModules'), 'tapping a coming-soon module shows a message, no empty screen');
   L.fire('BtnModMAS.Click');
   ok(L.visible('ArrLessons') && L.get('LblBarTitle') === 'ईंट की चिनाई', 'lesson list for Brick Masonry');
-  ok(Array.isArray(L.get('LvLessons', 'Elements')) && L.get('LvLessons', 'Elements')[0].startsWith('ईंट की चिनाई – बुनियादी तरीका\nSS-MAS-01 · 5 मिनट · ऑडियो'), 'list row: title, ID, duration, audio (MOD-2)', JSON.stringify(L.get('LvLessons', 'Elements')));
-  L.comps.LvLessons.SelectionIndex = 1; L.fire('LvLessons.AfterPicking');
-  ok(L.visible('ArrLesson') && L.visible('ArrIntro') && L.get('ImgStep', 'Picture') === 'SS-MAS-01_s1.jpg', 'lesson intro with picture (LES-1)');
+  ok(L.visible('ArrLc1') && !L.visible('ArrLc2') && L.get('BtnLc1').startsWith('ईंट की चिनाई – बुनियादी तरीका\nSS-MAS-01 · 5 मिनट · ऑडियो') && L.get('BtnLc1Pic', 'Image') === 'SS-MAS-01_s1.jpg' && L.get('BtnLc1Go', 'Image') === 'st_go.png',
+    'lesson card: picture, title, ID, duration, audio; one card per lesson (MOD-2)', JSON.stringify(L.get('BtnLc1')));
+  L.fire('BtnLc1.Click');
+  ok(L.visible('ArrLesson') && L.visible('ArrIntro') && L.get('ArrPic', 'Image') === 'SS-MAS-01_s1.jpg', 'lesson intro with picture (LES-1)');
   ok(L.get('LblObj').startsWith('पूरे और बराबर') && L.get('LblMat').includes(' · करनी · '), 'objective + materials in Hindi');
   L.fire('BtnNext.Click'); L.fire('BtnNext.Click');
-  ok(L.get('LblCounter') === 'चरण 2 / 7' && L.get('ImgStep', 'Picture') === 'SS-MAS-01_s2.jpg' && L.get('LblStepText').startsWith('इंजीनियर'), 'step 2 of 7 with its picture and text (LES-2)');
+  ok(L.get('LblCounter') === 'चरण 2 / 7' && L.get('ArrPic', 'Image') === 'SS-MAS-01_s2.jpg' && L.get('LblStepText').startsWith('इंजीनियर'), 'step 2 of 7 with its picture and text (LES-2)');
   ok(app.db.last_lesson === 'SS-MAS-01' && app.db.last_step === 2, 'last lesson + step saved for Continue');
   L.fire('BtnPrev.Click');
   ok(L.get('LblCounter') === 'चरण 1 / 7', 'Back goes to step 1');
   for (let i = 0; i < 7; i++) L.fire('BtnNext.Click');
-  ok(L.visible('ArrFinal') && !L.visible('BtnNext') && !L.visible('ImgStep'), 'after step 7: safety + mistakes page, no Next (LES-3)');
+  ok(L.visible('ArrFinal') && !L.visible('BtnNext') && !L.visible('ArrPic'), 'after step 7: safety + mistakes page, no Next (LES-3)');
   ok(L.get('LblSafety').startsWith('• हेलमेट') && L.get('LblSafety').split('\n').length === 5 && L.get('LblMistakes').split('\n').length === 7, 'red box 5 points, yellow box 7 points');
   ok(app.db['viewed_SS-MAS-01'] === true, 'lesson marked viewed at the end (LES-4)');
   L.fire('BtnNext.Click');
@@ -292,7 +293,7 @@ if (require.main === module) {
   app.top.fire('BtnBack.Click');
   ok(app.top === L && L.visible('ArrFinal'), 'back from Quiz returns to the lesson');
   L.fire('Learn.BackPressed'); for (let i = 0; i < 8; i++) L.fire('BtnPrev.Click');
-  ok(L.visible('ArrLessons') && L.get('LvLessons', 'Elements')[0].endsWith('देखा'), 'back from intro -> list, which now shows "Viewed"', L.get('LvLessons', 'Elements')[0]);
+  ok(L.visible('ArrLessons') && L.get('BtnLc1').endsWith('देखा') && L.get('BtnLc1Go', 'Image') === 'st_go.png', 'back from intro -> list, which now shows "Viewed"', L.get('BtnLc1'));
   L.fire('BtnBack.Click');
   ok(L.visible('ArrModules'), 'Back -> modules');
   L.fire('BtnBack.Click');
@@ -306,7 +307,7 @@ if (require.main === module) {
   ok(h3.get('BtnContinue') === 'पुढे चालू ठेवा · पायरी 4 / 7\nकाँक्रीट काम – मूलभूत पद्धत', 'Continue: Concrete work · step 4 of 7 (Marathi)', JSON.stringify(h3.get('BtnContinue')));
   h3.fire('BtnContinue.Click');
   const L3 = app3.top;
-  ok(L3.get('LblCounter') === 'पायरी 4 / 7' && L3.get('ImgStep', 'Picture') === 'SS-CON-01_s4.jpg', 'Continue opens Concrete Work at step 4');
+  ok(L3.get('LblCounter') === 'पायरी 4 / 7' && L3.get('ArrPic', 'Image') === 'SS-CON-01_s4.jpg', 'Continue opens Concrete Work at step 4');
   L3.fire('BtnBack.Click');
   ok(app3.top.name === 'Home', 'Back from a lesson opened by Continue returns to Home');
   const L4 = app3.open('Learn', ' ss-saf-01 ');
@@ -361,13 +362,13 @@ if (require.main === module) {
     ok(allOk && a.db['date_' + id] === '2026-11-29', `${id} ${lang}: 5 patterns, score = manual count, best kept, date saved, badge at >= 4/5`, detail);
   }
   {
-    const a = new App({ lang: 'hi' }); const Lq = a.open('Learn'); Lq.fire('BtnModCON.Click'); Lq.comps.LvLessons.SelectionIndex = 1; Lq.fire('LvLessons.AfterPicking');
+    const a = new App({ lang: 'hi' }); const Lq = a.open('Learn'); Lq.fire('BtnModCON.Click'); Lq.fire('BtnLc1.Click');
     for (let i = 0; i < 8; i++) Lq.fire('BtnNext.Click'); Lq.fire('BtnStartQuiz.Click');
     const Q = a.top; ['A', 'B', 'C', 'D', 'B'].forEach((l) => { Q.fire(`Btn${l}.Click`); Q.fire('BtnQNext.Click'); });
     ok(Q.get('LblScoreBig') === '5 / 5' && Q.get('LblBadge') === 'मेरे बैज: कंक्रीट का काम', 'result 5/5 + badge for Concrete Work (SKL-2)', Q.get('LblBadge'));
     ok(Q.get('LblAnswers').split('\n\n').filter(Boolean).length === 5 && Q.get('LblAnswers').startsWith('सही!'), 'result lists 5 correct answers (QZ-3)');
     Q.fire('BtnBackLessons.Click');
-    ok(a.top === Lq && Lq.visible('ArrLessons') && Lq.get('LvLessons', 'Elements')[0].endsWith('पूरा'), '"Back to lessons" -> list shows Completed');
+    ok(a.top === Lq && Lq.visible('ArrLessons') && Lq.get('BtnLc1').endsWith('पूरा') && Lq.get('BtnLc1Go', 'Image') === 'st_done.png', '"Back to lessons" -> card shows Completed + green tick (MOD-2)');
   }
 
   step('Day 12 · Scan: QR -> lesson; unknown -> clear message; type-code backup');
@@ -397,18 +398,19 @@ if (require.main === module) {
     const a = new App({ lang: 'en', 'score_SS-MAS-01': 4, 'viewed_SS-MAS-01': true, 'viewed_SS-CON-01': true, 'score_SS-SAF-01': 2 });
     const K = a.open('Skills');
     for (let i = 0; i < 15; i++) K.fire('ClockGrow.Timer');   // UI v2: bars grow in 15 frames
-    ok(K.get('LblSumBig') === '2/3' && K.get('LblSumFill', 'WidthPercent') === 56 && K.get('ClockGrow', 'TimerEnabled') === false, 'summary 2/3 completed, bar 2/3 of its 84% track, animation stops', `${K.get('LblSumBig')} ${K.get('LblSumFill', 'WidthPercent')}`);
+    ok(K.get('LblSumBig') === '2/3' && K.get('ArrSum', 'Image') === 'gauge_8.png' && K.get('ClockGrow', 'TimerEnabled') === false, 'summary 2/3 completed, gauge 8 of 12 segments, animation stops', `${K.get('LblSumBig')} ${K.get('ArrSum', 'Image')}`);
     ok(K.visible('ArrSkMAS') && K.visible('ArrSkCON') && K.visible('ArrSkSAF') && !K.visible('ArrSkREI'), 'progress rows only for modules with lessons (SKL-1)');
-    ok(K.get('LblSkCntMAS') === '1/1' && K.get('LblSkFillMAS', 'WidthPercent') === 92 && K.get('LblSkCntCON') === '0/1' && K.get('LblSkFillCON', 'WidthPercent') === 0, 'module bars: Brick full track (92%), Concrete 0%');
-    const els = K.get('LvSkills', 'Elements');
+    ok(K.get('LblSkCntMAS') === '1/1' && K.get('LblSkFillMAS', 'WidthPercent') === 84 && K.get('LblSkCntCON') === '0/1' && K.get('LblSkFillCON', 'WidthPercent') === 0, 'module bars: Brick full track (84% inside the card), Concrete 0%');
+    const els = [1, 2, 3, 4].filter((i) => K.visible('ArrSk' + i)).map((i) => K.get('BtnSk' + i));
+    ok(els.length === 3 && K.get('BtnSk1Pic', 'Image').startsWith('ic_sq_') && ['st_done.png', 'st_go.png'].includes(K.get('BtnSk1Go', 'Image')), 'one card per lesson, module icon + status icon');
     ok(els.some((e) => e.endsWith('SS-MAS-01 · Best score: 4/5')) && els.some((e) => e.endsWith('SS-CON-01 · Viewed')) && els.some((e) => e.endsWith('SS-SAF-01 · Best score: 2/5')), 'lesson list: best score / viewed', JSON.stringify(els));
     ok(K.visible('ImgBadgeMAS') && !K.visible('ImgBadgeSAF') && K.get('LblBadgeNames') === 'Brick Masonry', 'badge only for scores >= 4/5 (SKL-2)');
-    K.comps.LvSkills.SelectionIndex = 2; K.fire('LvSkills.AfterPicking');
+    K.fire('BtnSk2.Click');
     ok(a.top.name === 'Learn' && a.top.visible('ArrLesson'), 'tapping a lesson opens it');
     a.db['score_SS-CON-01'] = 5; a.top.fire('BtnBack.Click');
     ok(K.get('LblSumBig') === '3/3' && K.get('LblBadgeNames') === 'Brick Masonry · Concrete Work', 'My Skills refreshes after returning');
     const empty = new App({ lang: 'mr' }).open('Skills');
-    ok(empty.get('LblSumBig') === '0/3' && empty.get('LblBadgeNames') === '—' && empty.get('LvSkills', 'Elements').every((e) => e.endsWith('सुरू नाही')), 'new phone: 0/3, no badges, all "Not started"');
+    ok(empty.get('LblSumBig') === '0/3' && empty.get('LblBadgeNames') === '—' && [1, 2, 3].every((i) => empty.get('BtnSk' + i).endsWith('सुरू नाही') && empty.get('BtnSk' + i + 'Go', 'Image') === 'st_go.png'), 'new phone: 0/3, no badges, all "Not started"');
   }
 
   step('Day 12 · offline: nothing needs internet; every lesson-language pair opens with all its pictures');
@@ -421,7 +423,7 @@ if (require.main === module) {
     for (const id of ['SS-MAS-01', 'SS-CON-01', 'SS-SAF-01']) for (const lang of ['mr', 'hi', 'en']) {
       const a = new App({ lang }); const Lp = a.open('Learn', id);
       if (!Lp.visible('ArrLesson')) { bad.push(id + lang + ' not opened'); continue; }
-      for (let s = 0; s <= 8; s++) { const pic = Lp.get('ImgStep', 'Picture'); if (Lp.visible('ImgStep') && !FILES['assets/' + pic]) bad.push(`${id} ${lang} missing ${pic}`); Lp.fire('BtnNext.Click'); }
+      for (let s = 0; s <= 8; s++) { const pic = Lp.get('ArrPic', 'Image'); if (Lp.visible('ArrPic') && !FILES['assets/' + pic]) bad.push(`${id} ${lang} missing ${pic}`); Lp.fire('BtnNext.Click'); }
       if (!Lp.visible('ArrFinal') || !Lp.get('LblSafety')) bad.push(id + lang + ' no safety page');
       pairs++;
     }
@@ -454,7 +456,9 @@ if (require.main === module) {
     loginAs('vaibhav@example.com', 'admin-pass-123');
     ok(AD.visible('ArrDash') && AD.get('LblBarSub') === 'Vaibhav · Admin', 'login -> dashboard, name · role');
     ok(AD.get('LblBarTitle') === 'Dashboard', 'UI v2: title bar names the page (Dashboard)', AD.get('LblBarTitle'));
-    ok(AD.get('LblCounts') === 'Live: 0   To review: 3   Version: 0', 'dashboard counts', AD.get('LblCounts'));
+    ok(AD.get('LblStLiveN') === 0 && AD.get('LblStRevN') === 3 && AD.get('LblStVerN') === 0, 'dashboard stat tiles: Live 0, To review 3, Version 0', [AD.get('LblStLiveN'), AD.get('LblStRevN'), AD.get('LblStVerN')].join(' '));
+    ok(AD.visible('ArrAl1') && AD.visible('ArrAl3') && !AD.visible('ArrAl4') && AD.get('BtnAl1').startsWith('SS-CON-01 · In review') && AD.get('BtnAl1Ic', 'Image') === 'st_review.png' && !AD.visible('LvAdmLessons'),
+      'UI v3: one row per lesson, amber "in review" icon; plain list hidden (3 lessons <= 8)', AD.get('BtnAl1'));
     ok(AD.get('LvAdmLessons', 'Elements').length === 3 && AD.get('LvAdmLessons', 'Elements')[0].startsWith('SS-CON-01 · In review\n'), 'lesson list with status (3 MVP lessons from the sheet)', JSON.stringify(AD.get('LvAdmLessons', 'Elements')));
     ok(a.db.adm_token && a.db.adm_expires === BK.clock.t + 12 * 3600e3 && String(a.db.adm_url).endsWith('/exec'), 'token + 12 h expiry + server address saved on the phone (ADM-2)');
     ok(AD.visible('BtnPublish') && AD.visible('BtnTextsOpen') && AD.visible('BtnNew'), 'Admin sees New lesson, Publish, App texts');
@@ -482,6 +486,7 @@ if (require.main === module) {
     AD.fire('BtnSaveText.Click');
     ok(AD.get('LblEdHead') === 'SS-REI-01 · Draft' && AD.visible('ArrEdNav') && !AD.visible('LpModule'), 'saved -> ID SS-REI-01 created automatically (ADM-3)', AD.get('LblEdHead'));
     ok(/^Missing:\n• mr: title/.test(AD.get('LblMissing')) && !AD.visible('BtnSubmit'), 'missing list shown; Submit hidden until complete (ADM-6)', String(AD.get('LblMissing')).slice(0, 40));
+    ok(AD.visible('CrdMiss') && AD.get('CrdMissT', 'Picture') === 'cap_y_t.png' && AD.get('ImgEdSt', 'Picture') === 'st_draft.png', 'UI v3: checklist card is yellow while something is missing; grey Draft icon');
     let emptyOk = true;
     for (const [btn, title] of [['BtnEMr', 'सळई काम – मूलभूत'], ['BtnEHi', 'सरिया का काम – बुनियादी']]) {
       AD.fire(btn + '.Click'); if (AD.get('TxtTitle') !== '') emptyOk = false;
@@ -534,6 +539,7 @@ if (require.main === module) {
     ok(AD.get('TxtQ') === 'en q2?' && AD.get('LpCorrect', 'Text') === 'Correct answer: B', 'reopening a question shows it with its answer', `${AD.get('TxtQ')} | ${AD.get('LpCorrect', 'Text')}`);
     AD.fire('Admin.BackPressed');
     ok(AD.get('LblMissing') === 'Complete – ready to submit' && AD.visible('BtnSubmit'), 'all checks pass -> Submit appears', AD.get('LblMissing'));
+    ok(AD.get('CrdMissT', 'Picture') === 'cap_g_t.png' && AD.get('ImgMiss', 'Picture') === 'ic_fb_ok.png', 'UI v3: checklist card turns green with a tick when complete');
     AD.fire('BtnSubmit.Click');
     ok(AD.get('LblEdHead') === 'SS-REI-01 · In review', 'submitted -> In review');
 
@@ -557,12 +563,13 @@ if (require.main === module) {
     AD.fire('BtnPublish.Click');
     ok(AD.log.some((l) => l.startsWith('CHOOSE: Publish approved lessons to all phones?')), 'Publish asks first');
     AD.fire('Notifier1.AfterChoosing', { choice: 'Yes' });
-    ok(AD.log.includes('ALERT: Published. Content version 1') && String(AD.get('LblCounts')).startsWith('Live: 1'), 'published -> content version 1; dashboard Live: 1', AD.get('LblCounts'));
+    ok(AD.log.includes('ALERT: Published. Content version 1') && AD.get('LblStLiveN') === 1 && AD.get('LblStVerN') === 1, 'published -> content version 1; dashboard Live: 1', [AD.get('LblStLiveN'), AD.get('LblStVerN')].join(' '));
     ok(BK.get({}).lessons_csv.includes('SS-REI-01,REI,mr,सळई काम – मूलभूत'), 'phones can now download SS-REI-01 (getPublished)');
 
     step('Day 16 · QR codes and App texts (Admin)');
     AD.fire('BtnQrOpen.Click');
     ok(AD.visible('ArrQr') && AD.get('LvQr', 'Elements').length === 4, 'QR list for the 4 lessons', JSON.stringify(AD.get('LvQr', 'Elements')));
+    ok(AD.visible('ArrQc4') && !AD.visible('ArrQc5') && /^SS-[A-Z]{3}-\d\d · Printed: no\n/.test(AD.get('BtnQc1')) && AD.get('BtnQc1Go', 'Image') === 'st_go.png', 'UI v3: one row per QR code, not printed yet', AD.get('BtnQc1'));
     AD.set('LvQr', 'SelectionIndex', AD.globals.QRS.findIndex((q) => q.find((p) => p[0] === 'id')[1] === 'SS-REI-01') + 1); AD.fire('LvQr.AfterPicking');
     ok(AD.get('LblQrId') === 'SS-REI-01' && String(AD.get('ImgQr', 'Picture')).endsWith('data=SS-REI-01'), 'QR picture for SS-REI-01 with only the ID inside (QR-2)');
     AD.set('TxtPlace', 'Text', 'Bar bending yard').set('ChkPrinted', 'Checked', true); AD.fire('BtnSaveQr.Click');
@@ -637,8 +644,8 @@ if (require.main === module) {
     a.offline = true;
     const L1 = a.open('Learn');
     ok(L1.get('BtnModREI', 'Image') === 'tile_mod_rei.png' && L1.get('BtnModREI').includes('धडे: 1'), 'airplane mode: Reinforcement now has 1 lesson');
-    L1.fire('BtnModREI.Click'); L1.comps.LvLessons.SelectionIndex = 1; L1.fire('LvLessons.AfterPicking');
-    ok(L1.get('LblBarTitle') === 'सळई काम – मूलभूत' && L1.get('ImgStep', 'Picture') === a.db.dl_map.find((p) => p[0] === 'SS-REI-01_s1.jpg')[1], 'downloaded lesson opens offline with its downloaded picture (UPD-5)');
+    L1.fire('BtnModREI.Click'); L1.fire('BtnLc1.Click');
+    ok(L1.get('LblBarTitle') === 'सळई काम – मूलभूत' && L1.get('ArrPic', 'Image') === a.db.dl_map.find((p) => p[0] === 'SS-REI-01_s1.jpg')[1], 'downloaded lesson opens offline with its downloaded picture (UPD-5)');
     L1.fire('BtnNext.Click');
     ok(L1.get('LblStepText') === 'सळई काम – मूलभूत पायरी 1' && L1.get('LblCounter') === 'पायरी 1 / 5', 'steps from the update');
     L1.fire('BtnPlay.Click');
@@ -649,7 +656,7 @@ if (require.main === module) {
     const LQ = a.open('Learn', 'SS-REI-01'); for (let i = 0; i < 6; i++) LQ.fire('BtnNext.Click'); LQ.fire('BtnStartQuiz.Click');
     ok(a.top.get('LblQuestion') === 'mr REI q1?', 'its quiz comes from the update'); a.close(a.top); a.close(LQ);
     const LM = a.open('Learn', 'SS-MAS-01');
-    ok(LM.get('ImgStep', 'Picture') === 'SS-MAS-01_s1.jpg' && a.db['score_SS-MAS-01'] === 4, 'built-in lessons and scores unchanged (UPD-4)'); a.close(LM);
+    ok(LM.get('ArrPic', 'Image') === 'SS-MAS-01_s1.jpg' && a.db['score_SS-MAS-01'] === 4, 'built-in lessons and scores unchanged (UPD-4)'); a.close(LM);
     a.offline = false;
 
     step('Day 17 · new lesson + changed label published later (UPD-6, App texts)');
@@ -693,7 +700,7 @@ if (require.main === module) {
     ok(LR.log.includes('TTS STOP'), 'speaking stops when leaving the lesson (RAL-2)');
     const LQ2 = b2.open('Learn', 'SS-MAS-01'); for (let i = 0; i < 8; i++) LQ2.fire('BtnNext.Click'); LQ2.fire('BtnStartQuiz.Click'); const QZ = b2.top;
     QZ.fire('BtnSayQ.Click');
-    ok(QZ.log.some((l) => l.startsWith('TTS mr 0.8: विटा लावण्यापूर्वी पाण्यात का भिजवतात?. A    त्या जड')), 'quiz question + options read aloud');
+    ok(QZ.log.some((l) => l.startsWith('TTS mr 0.8: विटा लावण्यापूर्वी पाण्यात का भिजवतात?. A.   त्या जड')), 'quiz question + options read aloud');
 
     step('Day 18 · Explain My Mistake ("Why?")');
     QZ.fire('BtnB.Click');
@@ -811,6 +818,36 @@ if (require.main === module) {
     ok(h.db.helmet_supported === 'no' && SF.log.includes('ALERT: हा फोन हेल्मेट तपासणीला सपोर्ट करत नाही.'), 'classifier error -> "not supported" (HLM-5)');
     h.close(SF); h.close(HH); const HH2 = h.open('Home');
     ok(!HH2.visible('BtnSafety'), 'tile hidden on that phone from now on (HLM-5)');
+
+    step('rc8 · First setup and Server keys inside Admin Mode (no typing in Script Properties)');
+    {
+      const NB = require('./test-backend.js').makeBackend({ props: { PEPPER: null, TOKEN_SECRET: null, CLOUDINARY_CLOUD_NAME: null, CLOUDINARY_API_KEY: null, CLOUDINARY_API_SECRET: null, GEMINI_API_KEY: null } });
+      const na = new App({ lang: 'en', adm_url: 'https://script.google.com/macros/s/NEW/exec' }, NB);
+      const S0 = na.open('Settings'); S0.fire('BtnAbout.Click'); for (let i = 0; i < 5; i++) S0.fire('BtnVersion.Click');
+      const AD = na.top;
+      ok(AD.name === 'Admin' && AD.visible('ArrSetup') && !AD.visible('ArrLogin') && AD.get('LblBarTitle') === 'First setup', 'brand-new server -> Admin Mode opens First setup', AD.get('LblBarTitle'));
+      const code = String(NB.api.readTable_('setup')[0].value);
+      AD.set('TxtSetCode', 'Text', '111111').set('TxtSetName', 'Text', 'Vaibhav').set('TxtSetEmail', 'Text', 'v@example.com').set('PwdSetPass', 'Text', 'admin-pass-1');
+      AD.fire('BtnCreateAdmin.Click');
+      ok(AD.visible('ArrSetup') && /Wrong setup code/.test(AD.get('LblStatus')), 'wrong code -> clear message, stays on First setup', AD.get('LblStatus'));
+      AD.set('TxtSetCode', 'Text', code); AD.fire('BtnCreateAdmin.Click');
+      ok(AD.visible('ArrDash') && AD.get('LblBarSub') === 'Vaibhav · Admin' && na.db.adm_token && AD.get('PwdSetPass') === '' && AD.get('TxtSetCode') === '', 'code from the Google Sheet -> first Admin created, logged in, dashboard; password and code cleared');
+      ok(AD.visible('ArrKeysRow'), 'Admin sees "Server keys" on the dashboard');
+      AD.fire('BtnKeysOpen.Click');
+      ok(AD.visible('ArrKeys') && AD.get('LblKCl') === 'Cloudinary – photos and audio: not set' && AD.get('ImgKCl', 'Picture') === 'ic_box_mistake.png', 'Server keys page: Cloudinary not set yet', AD.get('LblKCl'));
+      AD.set('TxtKCloud', 'Text', 'demo').set('TxtKKey', 'Text', '123').set('PwdKSecret', 'Text', 'wrong');
+      AD.fire('BtnSaveKeys.Click');
+      ok(/did not accept/.test(AD.get('LblStatus')) && AD.get('PwdKSecret') === 'wrong' && !NB.props.CLOUDINARY_API_SECRET, 'wrong keys -> tested by the server, refused; fields kept to fix', AD.get('LblStatus'));
+      AD.set('PwdKSecret', 'Text', 'good-secret').set('PwdKGem', 'Text', 'good-gemini'); AD.fire('BtnSaveKeys.Click');
+      ok(AD.get('ImgKCl', 'Picture') === 'st_done.png' && /saved$/.test(AD.get('LblKGm')) && AD.get('LblStatus') === 'Saved: Cloudinary + Gemini' && NB.props.CLOUDINARY_API_SECRET === 'good-secret' && NB.props.GEMINI_API_KEY === 'good-gemini',
+        'right keys -> saved on the server; status shows saved', AD.get('LblStatus'));
+      ok(['TxtKCloud', 'TxtKKey', 'PwdKSecret', 'PwdKGem'].every((x) => AD.get(x) === '') && !JSON.stringify(na.db).includes('good-'), 'keys cleared from the screen and never stored on the phone');
+      AD.fire('BtnBack.Click');
+      ok(AD.visible('ArrDash'), 'Back -> dashboard');
+      NB.post({ action: 'addMember', token: na.db.adm_token, email: 'w@example.com', name: 'Sneha', role: 'Writer', password: 'writer-pass-1' });
+      AD.fire('BtnLogout.Click'); AD.set('TxtEmail', 'Text', 'w@example.com').set('PwdPass', 'Text', 'writer-pass-1'); AD.fire('BtnLogin.Click');
+      ok(AD.visible('ArrDash') && !AD.visible('ArrKeysRow'), 'Writer does not see Server keys');
+    }
   }
 
   // ===================================================================================
@@ -849,7 +886,7 @@ if (require.main === module) {
     ['A', 'D', 'C', 'A'].forEach((x) => { Q.fire('BtnQNext.Click'); Q.fire(`Btn${x}.Click`); }); Q.fire('BtnQNext.Click');
     const finalText = Q.get('LblScoreBig');
     for (let i = 0; i < 15; i++) Q.fire('ClockGrow.Timer');
-    ok(finalText === '5 / 5' && Q.get('LblScoreBig') === '5 / 5' && Q.get('LblScoreFill', 'WidthPercent') === 60, 'score counts up and ends at 5 / 5; bar fills its 60% track', Q.get('LblScoreBig'));
+    ok(finalText === '5 / 5' && Q.get('LblScoreBig') === '5 / 5' && Q.get('ArrRing', 'Image') === 'ring_5.png', 'score counts up and ends at 5 / 5; the ring fills all 5 segments', `${Q.get('LblScoreBig')} ${Q.get('ArrRing', 'Image')}`);
   }
 
   console.log(`\n${pass} passed, ${fail} failed`);

@@ -1,8 +1,8 @@
 {
- "ran_at": "2026-11-20T16:19:48.895Z",
+ "ran_at": "2026-11-26T09:52:31.210Z",
  "aia": "app-inventor/SITE_SAATHI.aia",
- "app_version": "1.0-rc5",
- "passed": 93,
+ "app_version": "1.0-rc7",
+ "passed": 94,
  "failed": 0,
  "results": [
   {
@@ -37,7 +37,7 @@
   },
   {
    "section": "Day 9 · first launch: splash -> language -> Home",
-   "check": "chosen language highlighted",
+   "check": "chosen language highlighted (yellow card with tick)",
    "pass": true,
    "detail": ""
   },
@@ -169,7 +169,7 @@
   },
   {
    "section": "Day 10 · Learn: modules -> lesson list -> lesson (Hindi, large text)",
-   "check": "list row: title, ID, duration, audio (MOD-2)",
+   "check": "lesson card: picture, title, ID, duration, audio; one card per lesson (MOD-2)",
    "pass": true,
    "detail": ""
   },
@@ -397,7 +397,7 @@
   },
   {
    "section": "Day 11 · quiz scores = manual count, for all 9 lesson-language pairs",
-   "check": "\"Back to lessons\" -> list shows Completed",
+   "check": "\"Back to lessons\" -> card shows Completed + green tick (MOD-2)",
    "pass": true,
    "detail": ""
   },
@@ -451,7 +451,7 @@
   },
   {
    "section": "Day 12 · My Skills: completed, best scores, module progress, badges",
-   "check": "summary 2/3 completed, bar 2/3 of its 84% track, animation stops",
+   "check": "summary 2/3 completed, gauge 8 of 12 segments, animation stops",
    "pass": true,
    "detail": ""
   },
@@ -463,7 +463,13 @@
   },
   {
    "section": "Day 12 · My Skills: completed, best scores, module progress, badges",
-   "check": "module bars: Brick full track (92%), Concrete 0%",
+   "check": "module bars: Brick full track (84% inside the card), Concrete 0%",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "section": "Day 12 · My Skills: completed, best scores, module progress, badges",
+   "check": "one card per lesson, module icon + status icon",
    "pass": true,
    "detail": ""
   },
@@ -559,7 +565,7 @@
   },
   {
    "section": "Motion · press animation, Home pop-in, quiz pulse and score count-up",
-   "check": "score counts up and ends at 5 / 5; bar fills its 60% track",
+   "check": "score counts up and ends at 5 / 5; the ring fills all 5 segments",
    "pass": true,
    "detail": ""
   }

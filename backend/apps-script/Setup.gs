@@ -19,6 +19,8 @@ function setupSheets() {
 /** Quick self-check you can run from the editor after setup (no data changes). */
 function checkSetup() {
   const miss = ['PEPPER', 'TOKEN_SECRET'].filter(function (k) { return !getProp_(k, false); });
-  const media = getProp_('CLOUDINARY_API_SECRET', false) ? 'Cloudinary' : (getProp_('DRIVE_FOLDER_ID', false) ? 'Google Drive (backup)' : 'NOT SET');
-  Logger.log('Missing required properties: ' + (miss.join(', ') || 'none') + ' · media storage: ' + media + ' · team members: ' + readTable_('team').length);
+  const media = getProp_('CLOUDINARY_API_SECRET', false) ? 'Cloudinary' : (getProp_('DRIVE_FOLDER_ID', false) ? 'Google Drive (backup)' : 'NOT SET (Admin Mode -> Server keys)');
+  const team = readTable_('team').length;
+  Logger.log('Secrets: ' + (miss.length ? 'made at first use (' + miss.join(', ') + ')' : 'ok') + ' · media storage: ' + media +
+    ' · team members: ' + team + (team ? '' : ' -> open the app, Admin Mode, First setup (code in tab "setup")'));
 }

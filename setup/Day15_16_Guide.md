@@ -7,33 +7,33 @@ Everything is free. **Never** add a card or turn on billing (Google Cloud, Cloud
 
 ## Part A · Google Sheet "SITE SAATHI Content" (≈ 10 min)
 1. Drive → `SITE_SAATHI/` → **Upload** `content/admin-sheet/SITE_SAATHI_Content.xlsx` → right-click → **Open with → Google Sheets** → File → **Save as Google Sheets**. Name it **SITE SAATHI Content**. Keep it **private**.
-2. Check the 15 tabs: modules (6), lessons (3, "In review"), lesson_text (9), steps (21), quiz (45), strings (142), team (empty), qr (3), manifest (version 0), and empty reviews / publish_log / pub_*.
+2. Check the 16 tabs: modules (6), lessons (3, "In review"), lesson_text (9), steps (21), quiz (45), strings, team (empty), qr (3), manifest (version 0), setup (empty), and empty reviews / publish_log / pub_*.
 
-## Part B · Apps Script backend (≈ 20 min)
+## Part B · Apps Script backend (≈ 15 min) — no keys to type here (admin build 1.1-rc8)
 1. In the sheet: **Extensions → Apps Script**. Name the project **SITE SAATHI API**.
-2. Create 10 script files with the same names as `backend/apps-script/*.gs` (Config, Sheets, Auth, Lessons, Media, Review, Publish, Texts, Router, Setup) and paste each file's content. Delete the empty `Code.gs`.
-3. **Project Settings (gear) → Script properties → Add**:
-   | Property | Value |
-   |---|---|
-   | `PEPPER` | any long random text (e.g. 40 random letters/numbers) |
-   | `TOKEN_SECRET` | another long random text |
-   | `ADMIN_SETUP` | `your-email|Vaibhav|a-strong-password` (deleted automatically after use) |
-   | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | from Part C |
-   | `DRIVE_FOLDER_ID` | optional backup: ID of Drive folder "SITE SAATHI Media" (the part after `/folders/`) |
-   Never write these anywhere else (not in the app, not in blocks, not in this project folder).
-4. Editor: select **setupSheets** → Run → allow the permissions (your own Google account). Then **setupFirstAdmin** → Run. Then **checkSetup** → Run → View → Logs: "Missing required properties: none".
-5. **Deploy → New deployment → Web app**: Execute as **Me**, Who has access **Anyone** (ADM-10). Copy the **Web app URL** (ends with `/exec`).
-6. Save the URL in `backend/api_url.txt` (one line, not secret) — then I rebuild so it is pre-filled; or type it on the Admin login page.
-7. **After any script change:** Deploy → Manage deployments → Edit (pencil) → Version **New version** → Deploy (same URL).
+2. Create 12 script files with the same names as `backend/apps-script/*.gs` (Config, Sheets, Auth, Keys, Lessons, Media, Review, Publish, Texts, Router, Setup, Ask) and paste each file's content. Delete the empty `Code.gs`.
+3. Editor: select **setupSheets** → Run → allow the permissions (your own Google account).
+4. **Deploy → New deployment → Web app**: Execute as **Me**, Who has access **Anyone** (ADM-10). Copy the **Web app URL** (ends with `/exec`).
+5. Save the URL in `backend/api_url.txt` (one line, not secret) — then I rebuild so it is pre-filled; or type it on the Admin login page.
+6. **After any script change:** Deploy → Manage deployments → Edit (pencil) → Version **New version** → Deploy (same URL).
+
+**You do NOT add Script Properties by hand any more:**
+| What | How it is set now |
+|---|---|
+| `PEPPER`, `TOKEN_SECRET` | made automatically by the server the first time (long random text) |
+| First Admin (was `ADMIN_SETUP`) | app → Admin Mode → **First setup**: type the 6-digit code from the sheet tab **setup**, your name, email, password |
+| Cloudinary (3 keys), Gemini key | app → Admin Mode → Dashboard → **Server keys** (Admin only). The server tests them, saves them in Script Properties and never sends them back to the phone |
+Still possible by hand, only if needed: `DRIVE_FOLDER_ID` (media backup without Cloudinary), `SHEET_ID` (script not opened from the sheet).
 
 ## Part C · Cloudinary free plan (≈ 10 min, Day 16)
-1. cloudinary.com → Sign up **free** (no card). Dashboard → copy **Cloud name, API Key, API Secret** into Script Properties (Part B.3). Never into the app.
-2. Nothing else: the script uploads into folder `site-saathi/<lessonId>/`, shrinks photos to 1080 px wide and converts recordings to MP3.
-3. Optional Drive backup: create Drive folder "SITE SAATHI Media", put its ID in `DRIVE_FOLDER_ID`. Used only if the Cloudinary keys are missing.
+1. cloudinary.com → Sign up **free** (no card). Dashboard → note **Cloud name, API Key, API Secret**.
+2. App → Admin Mode → **Server keys** → paste the 3 values → **Save**. A wrong key is refused with a clear message. Never write the keys anywhere else (not in chat, not in this folder).
+3. Nothing else: the script uploads into folder `site-saathi/<lessonId>/`, shrinks photos to 1080 px wide and converts recordings to MP3.
+4. Gemini (Ask Saathi backup, optional): aistudio.google.com → **Get API key** (free, never turn on billing) → Server keys → Gemini API key → Save.
 
 ## Part D · Team (Day 15)
 1. Import `app-inventor/SITE_SAATHI_admin.aia` into App Inventor (as a **new** project; keep the v1.0 one).
-2. Companion → Settings → About → **tap the version 5 times** → Admin Mode → paste the server address → log in as Admin.
+2. Companion → Settings → About → **tap the version 5 times** → Admin Mode → paste the server address → **First setup** opens on a new server (code from the sheet tab **setup**) → you are the Admin. Later: log in as Admin.
 3. Team members are added with the backend (Admin only). For now, in the Apps Script editor run once per person, after editing the values:
    ```
    function addTeam() { addMember_({ email: 'guide@example.com', name: 'Prof. Name', role: 'Reviewer', qualification: 'M.E. Structures', password: 'first-password-1' }); }

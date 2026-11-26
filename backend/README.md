@@ -15,7 +15,9 @@ Small backend for Admin Mode and lesson updates (PRD 10.13.6). Free: Google Apps
 | `apps-script/Router.gs` | `doPost` / `doGet`: one web address, role check before every change |
 | `apps-script/Setup.gs` | `setupSheets()`, `checkSetup()` |
 
-**Secrets** (`PEPPER`, `TOKEN_SECRET`, Cloudinary keys) live only in **Script Properties** — never in the app, the blocks, this folder or Git (CLAUDE.md).
+| `apps-script/Keys.gs` | Set up from the app: automatic `PEPPER` / `TOKEN_SECRET`, **First setup** (6-digit code in the sheet tab `setup` → first Admin), **Server keys** (Admin: Cloudinary + Gemini keys tested, then saved; never sent back) |
+
+**Secrets** (`PEPPER`, `TOKEN_SECRET`, Cloudinary and Gemini keys) live only in **Script Properties** — never in the app, the blocks, this folder or Git (CLAUDE.md). Since admin build 1.1-rc8 nobody types them there: the server makes `PEPPER` / `TOKEN_SECRET` itself, and the Admin pastes the Cloudinary / Gemini keys in Admin Mode → **Server keys** (sent once over HTTPS, stored only on the server, never stored on the phone).
 
 **Tests on the laptop:** `node tools/test-backend.js` runs these exact files with stand-ins for the Google services (56 checks).
 **Web app address:** after deploying, put the `…/exec` link in `backend/api_url.txt` (not secret) and rebuild the admin app, or type it on the login page.

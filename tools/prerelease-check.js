@@ -23,8 +23,10 @@ const small = buttons.filter((c) => { const h = px(c.Height); return h !== null 
 add('Every button at least 48 high (touch target)', small.length === 0, small.length ? small.map((c) => `${c.scr}.${c.$Name}=${c.Height}`).join(', ') : `${buttons.length} buttons, smallest ${Math.min(...buttons.map((c) => px(c.Height)).filter((h) => h > 0))}`);
 const smallText = comps.filter((c) => (c.$Type === 'Label' || c.$Type === 'Button') && c.FontSize && Number(c.FontSize) < 12 && c.Text !== '');
 add('Text size at least 12 sp (body 16–18 used for lesson text)', smallText.length === 0, smallText.length ? smallText.map((c) => `${c.scr}.${c.$Name}=${c.FontSize}`).join(', ') : 'smallest is the version line (12 sp)');
-const devaFont = comps.filter((c) => (c.$Type === 'Label' || c.$Type === 'Button') && c.Text !== '' && !c.Image && !/font_deva/.test(c.FontTypeface || ''));
-add('Every text component uses the bundled Noto Devanagari font', devaFont.length === 0, devaFont.length ? devaFont.map((c) => `${c.scr}.${c.$Name}`).join(', ') : 'all labels and text buttons');
+const devaFont = comps.filter((c) => (c.$Type === 'Label' || c.$Type === 'Button') && c.Text !== '' && !c.Image && !/font_ss/.test(c.FontTypeface || ''));
+add('Every text component uses the bundled app font (Noto Sans Devanagari + Figtree for English)', devaFont.length === 0, devaFont.length ? devaFont.map((c) => `${c.scr}.${c.$Name}`).join(', ') : 'all labels and text buttons');
+const latin = F['assets/font_ss.ttf'] && F['assets/font_ss_bold.ttf'];
+add('English letters are inside the bundled font (no fallback to the phone font)', !!latin, latin ? 'font_ss.ttf + font_ss_bold.ttf bundled' : 'font_ss*.ttf missing — run python -I tools/build-fonts.py');
 const online = comps.filter((c) => ['Web', 'ChatBot', 'ImageBot', 'PersonalImageClassifier', 'Sharing'].includes(c.$Type));
 add('No internet components in v1.0 (OFF-1)', online.length === 0, online.length ? online.map((c) => c.$Type).join(', ') : 'none');
 const screens = new Set(comps.map((c) => c.scr));

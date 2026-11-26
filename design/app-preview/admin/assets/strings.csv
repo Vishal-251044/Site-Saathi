@@ -18,6 +18,7 @@ continue_card,पुढे चालू ठेवा,जारी रखें,C
 step_of,पायरी {n} / {total},चरण {n} / {total},Step {n} of {total}
 offline_badge,ऑफलाइन उपलब्ध,ऑफलाइन उपलब्ध,Available offline
 coming_soon,लवकरच येत आहे,जल्द आ रहा है,Coming soon
+more_soon,आणखी धडे लवकरच येतील,और पाठ जल्द आएँगे,More lessons coming soon
 mod_mas,वीट बांधकाम,ईंट की चिनाई,Brick Masonry
 mod_con,काँक्रीट काम,कंक्रीट का काम,Concrete Work
 mod_saf,बांधकाम सुरक्षा,निर्माण सुरक्षा,Construction Safety
@@ -185,4 +186,22 @@ helmet_need_ext,आधी Personal Image Classifier एक्सटेंशन 
 helmet_not_supported,हा फोन हेल्मेट तपासणीला सपोर्ट करत नाही.,यह फ़ोन हेलमेट जाँच सपोर्ट नहीं करता।,This phone does not support Helmet Check.
 helmet_photo_stays,"फोटो फोनवरच राहतो, कुठेही पाठवला जात नाही.","फोटो फ़ोन पर ही रहता है, कहीं भेजा नहीं जाता।",The photo stays on this phone; it is never sent anywhere.
 adm_dashboard,डॅशबोर्ड,डैशबोर्ड,Dashboard
+adm_setup_title,पहिली सेटिंग,पहली सेटिंग,First setup
+adm_setup_help,Google Sheet उघडा → setup टॅब → तिथला 6 अंकी कोड इथे टाका. यामुळे पहिले Admin खाते तयार होते.,Google Sheet खोलें → setup टैब → वहाँ का 6 अंकों का कोड यहाँ लिखें. इससे पहला Admin खाता बनता है.,Open the Google Sheet → tab setup → type the 6-digit code from there. This creates the first Admin account.
+adm_setup_code,सेटअप कोड,सेटअप कोड,Setup code
+adm_your_name,तुमचे नाव,आपका नाम,Your name
+adm_create_admin,Admin खाते तयार करा,Admin खाता बनाएँ,Create Admin account
+adm_keys,सर्व्हर कीज,सर्वर कीज़,Server keys
+adm_keys_help,कीज तपासून सर्व्हरवर जतन होतात – या फोनवर नाही. त्या पुन्हा कधीच दाखवल्या जात नाहीत.,कीज़ जाँचकर सर्वर पर सहेजी जाती हैं – इस फ़ोन पर नहीं. वे फिर कभी नहीं दिखतीं.,Keys are checked and then saved on the server – not on this phone. They are never shown again.
+adm_cloud_help,cloudinary.com वर मोफत खाते → Dashboard → Cloud name / API key / API secret कॉपी करा.,cloudinary.com पर मुफ़्त खाता → Dashboard → Cloud name / API key / API secret कॉपी करें.,Free account at cloudinary.com → Dashboard → copy Cloud name / API key / API secret.
+adm_gemini_help,aistudio.google.com → Get API key (मोफत). बिलिंग कधीही चालू करू नका.,aistudio.google.com → Get API key (मुफ़्त). बिलिंग कभी चालू न करें.,aistudio.google.com → Get API key (free). Never turn on billing.
+adm_key_set,जतन केले,सहेजी गई,saved
+adm_key_not_set,नाही,नहीं,not set
+adm_keys_last,शेवटचा बदल,आखिरी बदलाव,Last change
+adm_cl_label,Cloudinary – फोटो आणि आवाज,Cloudinary – फ़ोटो और आवाज़,Cloudinary – photos and audio
+adm_gm_label,Gemini – Ask Saathi बॅकअप,Gemini – Ask Saathi बैकअप,Gemini – Ask Saathi backup
+adm_cloud_name,Cloud name,Cloud name,Cloud name
+adm_cloud_key,API key,API key,API key
+adm_cloud_secret,API secret,API secret,API secret
+adm_gemini_key,Gemini API key,Gemini API key,Gemini API key
 adm_edit_lesson,धडा संपादित करा,पाठ संपादित करें,Edit lesson

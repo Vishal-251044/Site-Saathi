@@ -9,6 +9,6 @@
 5. The first time you scan a QR code, allow the **camera**.
 
 - No internet is needed after installing. No account, no login, no personal data.
-- Space needed: keep at least 30 MB free (the APK is about 5 MB; installed apps take more).
+- Space needed: keep at least 30 MB free (the APK is about 9 MB; installed apps take more).
 - To update later: install the new APK over the old one; progress stays.
 - Problems: tell the supervisor. This app supports, but does not replace, on-site supervision and safety training.

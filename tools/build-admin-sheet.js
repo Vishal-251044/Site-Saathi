@@ -43,6 +43,7 @@ function buildSeed() {
   T.strings = strings;
   T.team = []; T.publish_log = []; T.pub_lessons = []; T.pub_quiz = []; T.pub_strings = []; T.pub_files = [];
   T.manifest = [{ content_version: 0, published_on: '', lessons_count: 0 }];
+  T.setup = [];   // first-setup code is written here by the server (Keys.gs)
   return { schema: S, tables: T };
 }
 

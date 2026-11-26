@@ -2,15 +2,15 @@
  * SITE SAATHI API · Config.gs
  * Tables (PRD 13.3), statuses (PRD 10.13.2), roles (PRD 10.13.4) and Script Properties access.
  *
- * Script Properties (Project Settings -> Script properties). NEVER put these in the app, blocks or Git:
- *   PEPPER            long random text, used in password hashing          (required)
- *   TOKEN_SECRET      long random text, signs the 12-hour session tokens  (required)
- *   CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET       (Cloudinary free plan, no card)
- *   DRIVE_FOLDER_ID   Drive folder "SITE SAATHI Media" (backup if Cloudinary keys are not set)
- *   GEMINI_API_KEY    Gemini API FREE tier key from Google AI Studio (billing never enabled) - Ask Saathi backup
- *   GEMINI_MODEL, AI_PER_MINUTE, AI_PER_DAY   optional (defaults in Ask.gs)
- *   SHEET_ID          only if this script is NOT bound to the "SITE SAATHI Content" sheet
- *   ADMIN_SETUP       one-time "email|name|password" for setupFirstAdmin(); deleted after use
+ * Script Properties (Project Settings -> Script properties). NEVER put these in the app, blocks or Git.
+ * Since admin build 1.1-rc8 NOBODY has to type them: Keys.gs makes / saves them (see below).
+ *   PEPPER, TOKEN_SECRET   made automatically the first time (long random text; password hashing, session tokens)
+ *   SETUP_CODE             one-time code for the first Admin, shown in the sheet tab "setup"; deleted after use
+ *   CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET   saved from the app: Admin Mode -> Server keys
+ *   GEMINI_API_KEY         saved from the app: Admin Mode -> Server keys (free tier, billing never enabled)
+ *   KEYS_UPDATED           who saved the keys last, and when
+ * Still possible by hand (optional): DRIVE_FOLDER_ID (media backup without Cloudinary), SHEET_ID (script not bound
+ * to the sheet), GEMINI_MODEL / AI_PER_MINUTE / AI_PER_DAY, ADMIN_SETUP "email|name|password" for setupFirstAdmin().
  */
 
 const SCHEMA = {
@@ -30,6 +30,7 @@ const SCHEMA = {
   pub_strings: ['key', 'mr', 'hi', 'en'],
   pub_files:   ['name', 'url', 'lesson_id'],          // media file list of the manifest
   manifest:    ['content_version', 'published_on', 'lessons_count'],
+  setup:       ['item', 'value', 'made_on'],                 // first-setup code for the first Admin (Keys.gs)
 };
 
 const STATUS = { DRAFT: 'Draft', REVIEW: 'In review', CHANGES: 'Changes needed', APPROVED: 'Approved', PUBLISHED: 'Published', HIDDEN: 'Hidden' };

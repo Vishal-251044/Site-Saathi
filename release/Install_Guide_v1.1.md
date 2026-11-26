@@ -3,7 +3,7 @@
 *For: site supervisors, testers and the content team who receive the APK.*
 
 ## Install
-1. Open the **Google Drive link** or the **WhatsApp file** `SITE_SAATHI_v1.1.apk` on the Android phone and tap it.
+1. Open the **Google Drive link** or the **WhatsApp file** `SITE_SAATHI_admin_v1.1.apk` on the Android phone and tap it.
 2. Android asks to allow installing from this app (Drive / WhatsApp / Files): tap **Settings → Allow from this source**, then go back.
 3. Tap **Install**. If Google Play Protect warns "unknown developer", tap **More details → Install anyway** (only for the file you got from the project team).
 4. Open **SITE SAATHI** → choose मराठी / हिंदी / English.
@@ -23,7 +23,7 @@
 
 ## Content team (Admin Mode)
 - Settings → About → tap the **version number 5 times** → Admin login.
-- Use the account the project lead gave you **in person**. Passwords are never written in this guide, the app, or a group chat.
+- The first Admin creates their own account once with **First setup** (handover guide 04). Writers and Reviewers use the account the Admin gave them **in person**. Passwords are never written in this guide, the app, or a group chat.
 - For the demo, use the **test account** only.
 - Lessons reach workers only after a reviewer approves and publishes them.
 

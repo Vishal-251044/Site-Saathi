@@ -45,10 +45,22 @@ function makeBackend(opts = {}) {
       base64Decode: (s) => bytes(Buffer.from(s, 'base64')),
       newBlob: (data, mime, name) => ({ getDataAsString: () => unbytes(data).toString('utf8'), getBytes: () => data, mime, name }),
       getUuid: () => crypto.randomUUID(),
+      base64Encode: (s) => Buffer.from(String(s), 'utf8').toString('base64'),
       formatDate: (d) => new Date(d.getTime() + 5.5 * 3600e3).toISOString().slice(0, 16).replace('T', ' '),
     },
     UrlFetchApp: { fetch: (url, o) => {
       fetches.push({ url, payload: o.payload, headers: o.headers });
+      // key checks from Admin Mode -> Server keys (Keys.gs). Accepted: the current keys, or test keys starting "good-"
+      if (url.includes('api.cloudinary.com') && url.endsWith('/usage')) {
+        const [k, s] = Buffer.from(String((o.headers || {}).Authorization || '').replace('Basic ', ''), 'base64').toString('utf8').split(':');
+        const cloud = decodeURIComponent(url.split('/v1_1/')[1].split('/')[0]);
+        const code = cloud === 'nocloud' ? 404 : (String(s).startsWith('good-') || (k === props.CLOUDINARY_API_KEY && s === props.CLOUDINARY_API_SECRET)) ? 200 : 401;
+        return { getResponseCode: () => code, getContentText: () => '{}' };
+      }
+      if (url.endsWith('/v1beta/models')) {
+        const key = String((o.headers || {})['x-goog-api-key'] || '');
+        return { getResponseCode: () => (key.startsWith('good-') || key === props.GEMINI_API_KEY ? 200 : 400), getContentText: () => '{}' };
+      }
       if (url.includes('generativelanguage.googleapis.com')) {   // Gemini free-tier stand-in
         const body = JSON.parse(o.payload);
         const good = o.headers && o.headers['x-goog-api-key'] === props.GEMINI_API_KEY && !url.includes('key=');
@@ -88,7 +100,7 @@ if (require.main === module) {
   const { post, get, clock, api } = B;
 
   step('Setup');
-  ok(api.setupSheets().length === 0, 'setupSheets on the seeded sheet: all 15 tabs exist, nothing changed');
+  ok(api.setupSheets().length === 0, 'setupSheets on the seeded sheet: all 16 tabs exist, nothing changed');
   api.setupFirstAdmin();
   ok(api.readTable_('team').length === 1 && !B.props.ADMIN_SETUP, 'first Admin created; ADMIN_SETUP deleted');
   const team = api.readTable_('team')[0];
@@ -189,7 +201,7 @@ if (require.main === module) {
   step('getPublished (phones, Day 17)');
   r = get({ action: 'getPublished' });
   const head = r.lessons_csv.split('\n')[0];
-  ok(r.ok && r.content_version === 1 && head === fs.readFileSync(path.join(ROOT, 'content', 'sheet', 'lessons.csv'), 'utf8').split('\n')[0], 'lessons_csv has exactly the app lessons.csv header');
+  ok(r.ok && r.content_version === 1 && head === fs.readFileSync(path.join(ROOT, 'content', 'sheet', 'lessons.csv'), 'utf8').split(/\r?\n/)[0], 'lessons_csv has exactly the app lessons.csv header');
   const rows = r.lessons_csv.trim().split('\n');
   ok(rows.length === 4 && rows[1].startsWith('SS-REI-01,REI,mr,') && rows[1].includes('SS-REI-01_s1.jpg|SS-REI-01_s2.jpg') && rows[1].includes('SS-REI-01_mr.mp3'), '3 rows (mr, hi, en) with file names, not links', rows[1].slice(0, 120));
   ok(rows[3].split(',').slice(-2)[0] === '', 'en marked read-aloud only -> empty audio column');
@@ -236,6 +248,45 @@ if (require.main === module) {
   ok(/free limit reached/.test(B2.post({ action: 'ask', q: 'x', lang: 'en' }).error), 'Gemini quota used up -> clear message (app shows the offline text)');
   const B3 = makeBackend({ props: { GEMINI_API_KEY: '' } });
   ok(B3.post({ action: 'ask', q: 'x', lang: 'en' }).error === 'AI backup is not set up.', 'no key set -> clear message');
+
+  step('rc8 · set up from the app: automatic secrets, first Admin with the sheet code, server keys');
+  {
+    const N = makeBackend({ props: { PEPPER: null, TOKEN_SECRET: null, CLOUDINARY_CLOUD_NAME: null, CLOUDINARY_API_KEY: null, CLOUDINARY_API_SECRET: null, GEMINI_API_KEY: null } });
+    let x = N.post({ action: 'login', email: 'a@b.co', password: 'whatever1' });
+    ok(!x.ok && x.needsSetup === true, 'brand-new server: login answers "needsSetup" (app opens First setup)', JSON.stringify(x));
+    x = N.post({ action: 'setupStatus' });
+    const code = (N.api.readTable_('setup')[0] || {}).value;
+    ok(x.ok && x.needsSetup && /^\d{6}$/.test(String(code)) && N.props.SETUP_CODE === String(code), 'setupStatus: 6-digit code written to the sheet tab "setup"', String(code));
+    ok(N.props.PEPPER && N.props.PEPPER.length > 60 && N.props.TOKEN_SECRET && N.props.PEPPER !== N.props.TOKEN_SECRET, 'PEPPER and TOKEN_SECRET made automatically (long, different)');
+    x = N.post({ action: 'firstSetup', code: '000000', name: 'Vaibhav', email: 'v@example.com', password: 'admin-pass-1' });
+    ok(!x.ok && /Wrong setup code.*4 tries left/.test(x.error) && N.api.readTable_('team').length === 0, 'wrong code -> refused, tries left', x.error);
+    for (let i = 0; i < 3; i++) N.post({ action: 'firstSetup', code: '000000', name: 'X', email: 'x@example.com', password: 'x-pass-1234' });
+    x = N.post({ action: 'firstSetup', code: '000000', name: 'X', email: 'x@example.com', password: 'x-pass-1234' });
+    const code2 = String((N.api.readTable_('setup')[0] || {}).value);
+    ok(!x.ok && /NEW code/.test(x.error) && code2 !== String(code) && /^\d{6}$/.test(code2), '5 wrong codes -> a new code in the sheet (guessing is useless)', x.error);
+    ok(/8 characters/.test(N.post({ action: 'firstSetup', code: code2, name: 'Vaibhav', email: 'v@example.com', password: 'short' }).error), 'password under 8 characters refused');
+    x = N.post({ action: 'firstSetup', code: code2, name: 'Vaibhav', email: 'V@Example.com', password: 'admin-pass-1' });
+    ok(x.ok && x.role === 'Admin' && x.token && N.api.readTable_('team')[0].role === 'Admin' && !N.props.SETUP_CODE && N.api.readTable_('setup')[0].value === 'done', 'right code -> first Admin + logged in; code deleted from server and sheet');
+    ok(/already done/.test(N.post({ action: 'firstSetup', code: code2, name: 'Y', email: 'y@example.com', password: 'y-pass-1234' }).error) && N.post({ action: 'setupStatus' }).needsSetup === false, 'a second first-setup is refused');
+    const AT = x.token;
+    ok(N.post({ action: 'login', email: 'v@example.com', password: 'admin-pass-1' }).ok, 'normal login works with the automatic secrets');
+    x = N.post({ action: 'getKeys', token: AT });
+    ok(x.ok && x.cloudinary === 'not set' && x.gemini === 'not set', 'getKeys: status only (not set yet)');
+    ok(/all 3/.test(N.post({ action: 'saveKeys', token: AT, cloud_name: 'demo', cloud_key: '123' }).error), 'Cloudinary needs all 3 values');
+    ok(/did not accept/.test(N.post({ action: 'saveKeys', token: AT, cloud_name: 'demo', cloud_key: '123', cloud_secret: 'bad' }).error) && !N.props.CLOUDINARY_API_SECRET, 'wrong Cloudinary keys -> tested, refused, not saved');
+    ok(/cloud name not found/.test(N.post({ action: 'saveKeys', token: AT, cloud_name: 'nocloud', cloud_key: '123', cloud_secret: 'good-s' }).error), 'unknown cloud name -> clear message');
+    ok(/did not accept this Gemini key/.test(N.post({ action: 'saveKeys', token: AT, gemini_key: 'nope' }).error) && !N.props.GEMINI_API_KEY, 'wrong Gemini key -> refused, not saved');
+    x = N.post({ action: 'saveKeys', token: AT, cloud_name: 'demo', cloud_key: '123', cloud_secret: 'good-secret', gemini_key: 'good-gem' });
+    const leak = JSON.stringify(x);
+    ok(x.ok && x.saved === 'Cloudinary + Gemini' && x.cloudinary === 'set' && x.gemini === 'set' && N.props.CLOUDINARY_API_SECRET === 'good-secret' && N.props.GEMINI_API_KEY === 'good-gem', 'right keys -> tested, saved in Script Properties', leak);
+    ok(!leak.includes('good-secret') && !leak.includes('good-gem') && !JSON.stringify(N.post({ action: 'getKeys', token: AT })).includes('good-'), 'keys are never sent back to the phone');
+    ok(/^Vaibhav · /.test(N.props.KEYS_UPDATED), 'who saved the keys, and when, is kept');
+    N.post({ action: 'addMember', token: AT, email: 'w@example.com', name: 'W', role: 'Writer', password: 'writer-pass-1' });
+    const WT = N.post({ action: 'login', email: 'w@example.com', password: 'writer-pass-1' }).token;
+    ok(/cannot do this/.test(N.post({ action: 'saveKeys', token: WT, gemini_key: 'good-x' }).error) && /cannot do this/.test(N.post({ action: 'getKeys', token: WT }).error), 'Writer cannot see or change keys (Admin only)');
+    const up = N.post({ action: 'uploadMedia', token: AT, id: 'SS-MAS-01', kind: 'image', ext: 'jpg', step_no: 1, data: 'aGVsbG8=' });
+    ok(up.ok && /res\.cloudinary\.com\/demo\//.test(JSON.stringify(up)), 'upload uses the keys saved from the app', JSON.stringify(up).slice(0, 120));
+  }
 
   console.log(`\n${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);

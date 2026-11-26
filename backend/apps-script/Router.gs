@@ -26,6 +26,11 @@ const ACTIONS = {
   addMember:      { fn: addMember_,      roles: ['Admin'], write: true },
   setActive:      { fn: setActive_,      roles: ['Admin'], write: true },
   changePassword: { fn: changePassword_, roles: null, write: true },
+  // set up from the app (Keys.gs): first Admin with the code from the sheet, server keys (Admin only)
+  setupStatus:    { fn: setupStatus_,    auth: false, write: true },
+  firstSetup:     { fn: firstSetup_,     auth: false, write: true },
+  getKeys:        { fn: getKeys_,        roles: ['Admin'] },
+  saveKeys:       { fn: saveKeys_,       roles: ['Admin'], write: true },
 };
 
 function doPost(e) { return json_(handle_((e && e.parameter) || {})); }
@@ -54,7 +59,9 @@ function handle_(p) {
     out.ok = true;
     return out;
   } catch (err) {
-    return { ok: false, error: String((err && err.message) || err) };
+    const out = { ok: false, error: String((err && err.message) || err) };
+    if (err && err.needsSetup) out.needsSetup = true;   // login on a brand-new server -> app opens "First setup"
+    return out;
   } finally {
     if (lock) lock.releaseLock();
   }

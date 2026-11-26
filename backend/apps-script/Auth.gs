@@ -7,7 +7,7 @@
 function hex_(bytes) { return bytes.map(function (b) { return ('0' + (b & 0xff).toString(16)).slice(-2); }).join(''); }
 
 function hashPassword_(password, salt) {
-  const pepper = getProp_('PEPPER', true);
+  const pepper = secret_('PEPPER');   // made automatically the first time (Keys.gs)
   return hex_(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, pepper + ':' + salt + ':' + password, Utilities.Charset.UTF_8));
 }
 function makeHash_(password) { const salt = Utilities.getUuid(); return salt + '$' + hashPassword_(password, salt); }
@@ -17,7 +17,7 @@ function checkHash_(password, stored) {
 }
 
 function sign_(payload) {
-  return Utilities.base64EncodeWebSafe(Utilities.computeHmacSha256Signature(payload, getProp_('TOKEN_SECRET', true)));
+  return Utilities.base64EncodeWebSafe(Utilities.computeHmacSha256Signature(payload, secret_('TOKEN_SECRET')));   // made automatically (Keys.gs)
 }
 function makeToken_(email, role) {
   const payload = JSON.stringify({ e: email, r: role, x: now_() + SESSION_HOURS * 3600 * 1000 });
@@ -49,6 +49,9 @@ function requireUser_(p, roles) {
 function login_(p) {
   const email = String(p.email || '').trim().toLowerCase();
   const cache = CacheService.getScriptCache();
+  if (readTable_('team').length === 0) {   // brand-new server: the app switches to "First setup"
+    const e = new Error('This server has no Admin yet. Do the first setup.'); e.needsSetup = true; throw e;
+  }
   if (!email || !p.password) throw new Error('Enter email and password.');
   if (cache.get('lock_' + email)) throw new Error('Too many wrong tries. Wait ' + LOCK_MINUTES + ' minutes.');
   const m = findRow_('team', function (r) { return same_(String(r.email).toLowerCase(), email); });

@@ -1,11 +1,11 @@
 {
- "ran_at": "2026-11-20T16:13:38.054Z",
+ "ran_at": "2026-11-26T11:17:30.968Z",
  "aia": "app-inventor/SITE_SAATHI.aia",
  "rows": [
   {
    "rule": "Every button at least 48 high (touch target)",
    "pass": true,
-   "detail": "44 buttons, smallest 48"
+   "detail": "99 buttons, smallest 48"
   },
   {
    "rule": "Text size at least 12 sp (body 16–18 used for lesson text)",
@@ -13,9 +13,14 @@
    "detail": "smallest is the version line (12 sp)"
   },
   {
-   "rule": "Every text component uses the bundled Noto Devanagari font",
+   "rule": "Every text component uses the bundled app font (Noto Sans Devanagari + Figtree for English)",
    "pass": true,
    "detail": "all labels and text buttons"
+  },
+  {
+   "rule": "English letters are inside the bundled font (no fallback to the phone font)",
+   "pass": true,
+   "detail": "font_ss.ttf + font_ss_bold.ttf bundled"
   },
   {
    "rule": "No internet components in v1.0 (OFF-1)",
@@ -35,7 +40,7 @@
   {
    "rule": "APK size target < 30 MB (PRD 10.15)",
    "pass": true,
-   "detail": "media 1.68 MB + App Inventor runtime ≈ 6 MB → ≈ 7.7 MB"
+   "detail": "media 2.43 MB + App Inventor runtime ≈ 6 MB → ≈ 8.4 MB"
   },
   {
    "rule": "Longest mr step fits one screen (≤ 180 characters)",
